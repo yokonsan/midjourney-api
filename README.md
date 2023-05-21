@@ -1,6 +1,9 @@
 # midjourney-api
 
-基于 Discord 的 Midjourney API
+基于 Discord 的 Midjourney API。
+
+使用教程参考：[Midjourney｜如何集成到自己的平台](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
+
 
 ## UML
 
