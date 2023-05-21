@@ -1,0 +1,6 @@
+discord.py==2.2.3
+fastapi==0.95
+python-dotenv==1.0.0
+uvicorn==0.22.0
+pydantic~=1.10.7
+aiohttp~=3.8.4
