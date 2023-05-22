@@ -3,6 +3,7 @@ from typing import TypedDict, List
 
 from discord import Intents, Message
 from discord.ext import commands
+from loguru import logger
 
 from lib.api.callback import callback
 
@@ -39,12 +40,12 @@ class CallbackData(TypedDict):
 
 @bot.event
 async def on_ready():
-    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+    logger.success(f"Logged in as {bot.user} (ID: {bot.user.id})")
 
 
 @bot.event
 async def on_message(message: Message):
-    print("on_message: ", message.content)
+    logger.debug(f"on_message: {message.content}")
     if message.author.id != 936929561302675456:
         return
 
@@ -69,7 +70,7 @@ async def on_message(message: Message):
 
 @bot.event
 async def on_message_edit(_: Message, after: Message):
-    print("on_message_edit: ", after.content)
+    logger.debug(f"on_message_edit: {after.content}")
     if after.author.id != 936929561302675456:
         return
 

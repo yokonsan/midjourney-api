@@ -47,7 +47,6 @@ def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, An
         "data": data
     }
     payload.update(kwargs)
-    print(payload)
     return payload
 
 

@@ -4,3 +4,4 @@ python-dotenv==1.0.0
 uvicorn==0.22.0
 pydantic~=1.10.7
 aiohttp~=3.8.4
+loguru==0.7.0
