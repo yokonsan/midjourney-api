@@ -130,9 +130,9 @@ curl -X 'POST' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "msg_id": "1110480496422568037",
-  "msg_hash": "e86694be-3c81-456a-9567-6a589f8856cd",
-  "trigger_id": "1720781807"
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "trigger_id": "xxxxxxxxxx"
 }'
 ```
 
