@@ -2,7 +2,7 @@
 set -e
 
 if [ "$1" = 'http' ]; then
-  set -- uvicorn server:api_app --host 0.0.0.0 --port 8062
+  set -- python server.py
 fi
 
 if [ "$1" = 'bot' ]; then
