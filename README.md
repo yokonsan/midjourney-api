@@ -66,9 +66,75 @@ sh start.sh
 
 `midjourney-api` 提供接口：
 
-1. `/v1/api/trigger/bot`：触发绘画任务，已完成
-2. `/v1/api/upload`：上传图片，触发任务，待开发
+- [x]  `/v1/api/trigger/imagine`：触发绘画任务
+- [x]  `/v1/api/trigger/upscale`：U
+- [x]  `/v1/api/trigger/variation`：V
+- [x]  `/v1/api/trigger/reset`：重绘
+- [ ]  `/v1/api/upload`：上传图片，触发任务，待开发
 
+
+## 使用
+
+### imagine
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/imagine' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "prompt": "a cute cat"
+}'
+```
+
+### upscale
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/upscale' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index": 1,
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+- `index`: 图片索引，取值：1、2、3、4
+- `msg_id`: `imagine` 绘画完成后回调报文 `id` 字段
+- `msg_hash`: `imagine` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
+- `trigger_id`: `imagine` 绘画完成后回调报文 `trigger_id` 字段
+
+### variation
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/variation' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index": 2,
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+### reset
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/reset' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "msg_id": "1110480496422568037",
+  "msg_hash": "e86694be-3c81-456a-9567-6a589f8856cd",
+  "trigger_id": "1720781807"
+}'
+```
 
 ## 功能
 
@@ -77,3 +143,8 @@ sh start.sh
 - [x] variation
 - [x] reset
 - [ ] 图生图
+
+## enjoy it
+
+---
+
