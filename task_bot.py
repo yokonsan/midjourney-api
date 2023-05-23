@@ -1,7 +1,7 @@
 from os import getenv
 
 import __init__  # noqa
-from lib.bot import bot
+from task.bot import bot
 
 BOT_TOKEN = getenv("BOT_TOKEN")
 

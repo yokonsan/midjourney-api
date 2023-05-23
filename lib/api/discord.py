@@ -4,7 +4,6 @@ from typing import Dict, Any
 
 import aiohttp
 
-from exceptions import RequestParamsError
 from lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
 from util.fetch import fetch
 
@@ -50,16 +49,7 @@ def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, An
     return payload
 
 
-def _check_params(*args):
-    if not all(args):
-        raise RequestParamsError(f"miss required params, {args}")
-
-    return True
-
-
-async def generate(prompt: str):
-    _check_params(prompt)
-
+async def generate(prompt: str, **kwargs):
     payload = _trigger_payload(2, {
         "version": "1077969938624553050",
         "id": "938956540159881230",
@@ -93,9 +83,7 @@ async def generate(prompt: str):
     return await trigger(payload)
 
 
-async def upscale(index: int, msg_id: str, msg_hash: str):
-    _check_params(index, msg_id, msg_hash)
-
+async def upscale(index: int, msg_id: str, msg_hash: str, **kwargs):
     kwargs = {
         "message_flags": 0,
         "message_id": msg_id,
@@ -107,9 +95,7 @@ async def upscale(index: int, msg_id: str, msg_hash: str):
     return await trigger(payload)
 
 
-async def variation(index: int, msg_id: str, msg_hash: str):
-    _check_params(index, msg_id, msg_hash)
-
+async def variation(index: int, msg_id: str, msg_hash: str, **kwargs):
     kwargs = {
         "message_flags": 0,
         "message_id": msg_id,
@@ -121,9 +107,7 @@ async def variation(index: int, msg_id: str, msg_hash: str):
     return await trigger(payload)
 
 
-async def max_upscale(msg_id: str, msg_hash: str):
-    _check_params(msg_id, msg_hash)
-
+async def max_upscale(msg_id: str, msg_hash: str, **kwargs):
     kwargs = {
         "message_flags": 0,
         "message_id": msg_id,
@@ -135,9 +119,7 @@ async def max_upscale(msg_id: str, msg_hash: str):
     return await trigger(payload)
 
 
-async def reset(msg_id: str, msg_hash: str):
-    _check_params(msg_id, msg_hash)
-
+async def reset(msg_id: str, msg_hash: str, **kwargs):
     kwargs = {
         "message_flags": 0,
         "message_id": msg_id,
@@ -149,9 +131,7 @@ async def reset(msg_id: str, msg_hash: str):
     return await trigger(payload)
 
 
-async def describe(upload_filename: str):
-    _check_params(upload_filename)
-
+async def describe(upload_filename: str, **kwargs):
     payload = _trigger_payload(2, {
         "version": "1092492867185950853",
         "id": "1092492867185950852",

@@ -1,11 +1,20 @@
 from pydantic import BaseModel
 
-from lib.api.discord import TriggerType
+
+class TriggerImagineIn(BaseModel):
+    prompt: str
 
 
-class TriggerBotIn(BaseModel):
-    type: TriggerType
-    prompt: str = ""
-    msg_id: str = ""
-    msg_hash: str = ""
-    index: int = 0
+class TriggerUVIn(BaseModel):
+    index: int
+    msg_id: str
+    msg_hash: str
+
+    trigger_id: str  # 供业务定位触发ID，/trigger/imagine 接口返回的 trigger_id
+
+
+class TriggerResetIn(BaseModel):
+    msg_id: str
+    msg_hash: str
+
+    trigger_id: str  # 供业务定位触发ID，/trigger/imagine 接口返回的 trigger_id

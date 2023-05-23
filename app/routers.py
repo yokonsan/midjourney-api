@@ -1,43 +1,44 @@
-from fastapi import APIRouter, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter
 
-from exceptions import MaxRetryError, RequestParamsError
 from lib.api import discord
-from .schema import TriggerBotIn
+from .handler import prompt_handler, http_response
+from .schema import TriggerImagineIn, TriggerUVIn, TriggerResetIn
 
 router = APIRouter()
 
 
-@router.post("/trigger/bot")
-async def trigger_bot(body: TriggerBotIn):
-    try:
-        if body.type == discord.TriggerType.generate:
-            resp = await discord.generate(body.prompt)
-        elif body.type == discord.TriggerType.upscale:
-            resp = await discord.upscale(body.index, body.msg_id, body.msg_hash)
-        elif body.type == discord.TriggerType.variation:
-            resp = await discord.variation(body.index, body.msg_id, body.msg_hash)
-        elif body.type == discord.TriggerType.max_upscale:
-            resp = await discord.max_upscale(body.msg_id, body.msg_hash)
-        elif body.type == discord.TriggerType.reset:
-            resp = await discord.reset(body.msg_id, body.msg_hash)
-        elif body.type == discord.TriggerType.describe:
-            resp = await discord.describe(body.prompt)
-        else:
-            resp = None
+@router.post("/trigger/imagine", )
+@http_response
+async def imagine(body: TriggerImagineIn):
+    trigger_id, prompt = prompt_handler(body.prompt)
+    return trigger_id, await discord.generate(prompt)
 
-        if resp is not None:
-            code, content = status.HTTP_200_OK, "success"
-        else:
-            code, content = status.HTTP_400_BAD_REQUEST, "fail"
-    except MaxRetryError:
-        code, content = status.HTTP_400_BAD_REQUEST, "Request discord api error"
-    except RequestParamsError:
-        code, content = status.HTTP_400_BAD_REQUEST, "Miss required params error"
 
-    return JSONResponse(status_code=code, content=content)
+@router.post("/trigger/upscale", )
+@http_response
+async def upscale(body: TriggerUVIn):
+    return body.trigger_id, await discord.upscale(**body.dict())
+
+
+@router.post("/trigger/variation", )
+@http_response
+async def variation(body: TriggerUVIn):
+    return body.trigger_id, await discord.variation(**body.dict())
+
+
+@router.post("/trigger/reset", )
+@http_response
+async def reset(body: TriggerResetIn):
+    return body.trigger_id, await discord.reset(**body.dict())
+
+
+@router.post("/trigger/describe")
+@http_response
+async def describe():
+    pass
 
 
 @router.post("/trigger/upload")
-async def trigger_upload():
+@http_response
+async def upload():
     pass
