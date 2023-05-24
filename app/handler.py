@@ -6,7 +6,7 @@ from fastapi import status
 from fastapi.responses import JSONResponse
 
 from exceptions import BannedPromptError
-from lib.api.prompt import BANNED_PROMPT
+from lib.prompt import BANNED_PROMPT
 
 PROMPT_PREFIX = "<#"
 PROMPT_SUFFIX = "#>"

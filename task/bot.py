@@ -18,11 +18,13 @@ TRIGGER_ID_PATTERN = f"{PROMPT_PREFIX}(\w+?){PROMPT_SUFFIX}"  # 消息 ID 正则
 
 
 class TriggerStatus(Enum):
-    start = "start"
-    generating = "generating"
-    end = "end"
-    error = "error"
-    sensitive = "sensitive"
+    start = "start"  # 首次触发
+    generating = "generating"  # 生成中
+    end = "end"  # 生成结束
+    error = "error"  # 生成错误
+    banned = "banned"  # 提示词被禁
+
+    verify = "verify"  # 需人工验证
 
 
 TEMP_MAP: Dict[str, bool] = {}  # 临时存储消息流转信息
@@ -124,7 +126,7 @@ async def on_message_delete(message: Message):
 
     logger.warning(f"sensitive content: {message.content}")
     await callback(CallbackData(
-        type=TriggerStatus.sensitive.value,
+        type=TriggerStatus.banned.value,
         id=message.id,
         content=message.content,
         attachments=[
