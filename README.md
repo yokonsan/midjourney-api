@@ -53,7 +53,13 @@ python server.py
 
 ### docker 启动
 
-填写 [start.sh](./start.sh) 环境变量，启动：
+填写 [start.sh](./start.sh) 中 `-e` 后的环境变量，直接启动：
+
+```bash
+sh start.sh
+```
+
+或者本地构建镜像：
 
 ```bash
 # 构建镜像

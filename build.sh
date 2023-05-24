@@ -1,2 +1,2 @@
 git pull
-docker build -t yokonsan/midjourney-api:1.0 .
+docker build -t kunyu/midjourney-api:1.0 .
