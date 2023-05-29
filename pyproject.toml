@@ -2,9 +2,12 @@
 name = "midjourney-api"
 version = "0.1.0"
 description = ""
-authors = ["markshawn2020 <shawninjuly@gmail.com>"]
+authors = [
+    "https://github.com/yokonsan",
+    "markshawn2020 <shawninjuly@gmail.com>"
+]
 readme = "README.md"
-packages = [{include = "midjourney_api"}]
+packages = [{ include = "midjourney_api" }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
