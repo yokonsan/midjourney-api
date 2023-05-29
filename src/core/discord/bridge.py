@@ -3,7 +3,7 @@ from typing import Dict, Any
 
 import aiohttp
 
-from settings import TRIGGER_URL, GUILD_ID, CHANNEL_ID, USER_TOKEN
+from settings_discord import GUILD_ID, CHANNEL_ID, USER_TOKEN, TRIGGER_URL
 from src.lib.fetch import fetch
 
 
@@ -36,7 +36,7 @@ def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, An
     return payload
 
 
-async def generate(prompt: str, **kwargs):
+async def imagine(prompt: str, **kwargs):
     payload = _trigger_payload(2, {
         "version": "1077969938624553050",
         "id": "938956540159881230",

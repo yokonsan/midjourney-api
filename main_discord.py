@@ -1,13 +1,13 @@
 from discord import Intents, Message
 from discord.ext import commands
 
-import settings
-from src.ds.bot import TriggerStatus
-from src.ds.typings import Attachment, CallbackData
-from src.lib.bot import match_trigger_id
+import settings_discord
+from src.ds.discord import AttachmentDict, CallbackDict
+from src.ds.system import TriggerStatus
 from src.lib.callback import callback
 from src.lib.log import logger
 from src.lib.store import get_temp, set_temp, pop_temp
+from src.lib.utils import match_trigger_id
 
 intents = Intents.default()
 intents.message_content = True
@@ -40,12 +40,12 @@ async def on_message(message: Message):
         type_ = TriggerStatus.end.value
         pop_temp(trigger_id)
     
-    await callback(CallbackData(
+    await callback(CallbackDict(
         type=type_,
         id=message.id,
         content=content,
         attachments=[
-            Attachment(**attachment.to_dict())
+            AttachmentDict(**attachment.to_dict())
             for attachment in message.attachments
         ],
         trigger_id=trigger_id,
@@ -63,12 +63,12 @@ async def on_message_edit(_: Message, after: Message):
     
     logger.debug(f"on_message_edit: {after.content}")
     if after.webhook_id != "":
-        await callback(CallbackData(
+        await callback(CallbackDict(
             type=TriggerStatus.generating.value,
             id=after.id,
             content=after.content,
             attachments=[
-                Attachment(**attachment.to_dict())
+                AttachmentDict(**attachment.to_dict())
                 for attachment in after.attachments
             ],
             trigger_id=trigger_id,
@@ -89,12 +89,12 @@ async def on_message_delete(message: Message):
         return
     
     logger.warning(f"sensitive content: {message.content}")
-    await callback(CallbackData(
+    await callback(CallbackDict(
         type=TriggerStatus.banned.value,
         id=message.id,
         content=message.content,
         attachments=[
-            Attachment(**attachment.to_dict())
+            AttachmentDict(**attachment.to_dict())
             for attachment in message.attachments
         ],
         trigger_id=trigger_id,
@@ -102,4 +102,4 @@ async def on_message_delete(message: Message):
 
 
 if __name__ == '__main__':
-    bot.run(settings.BOT_TOKEN)
+    bot.run(settings_discord.BOT_TOKEN)

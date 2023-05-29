@@ -1,0 +1,5 @@
+API_PREFIX = "/v1/api"
+
+PROMPT_PREFIX = "<#"
+PROMPT_SUFFIX = "#>"
+TRIGGER_ID_PATTERN = f"{PROMPT_PREFIX}(\w+?){PROMPT_SUFFIX}"  # 消息 ID 正则

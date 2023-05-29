@@ -1,12 +1,12 @@
 import asyncio
-from typing import Callable, Coroutine, Any, TypeVar, Union
+from typing import Callable, Coroutine, Any, Union
 
-from aiohttp import ClientError, ClientSession, hdrs
-from loguru import logger
+from aiohttp import ClientError, ClientSession
 
+from src.ds.generic import T
+from src.ds.system import FetchMethod
 from src.lib.exceptions import MaxRetryError
-
-T = TypeVar("T")
+from src.lib.log import logger
 
 
 class MaxRetry:
@@ -33,32 +33,18 @@ class MaxRetry:
         return connect_n_times
 
 
-class FetchMethod:
-    get = hdrs.METH_GET
-    post = hdrs.METH_POST
-
-
 @MaxRetry()
 async def fetch(
     session: ClientSession,
     url: str,
     method: str = FetchMethod.post, **kwargs
 ) -> Union[bool, None]:
+    """
+    todo: fetch不仅用于discord，还用于callback，所以MaxRetry有可能导致 n * n 次重复
+    
+    """
     logger.debug(f"Fetch: {url}")
     async with session.request(method, url, **kwargs) as resp:
         if not resp.ok:
             return None
         return True
-
-
-@MaxRetry()
-async def fetch_text(
-    session: ClientSession,
-    url: str,
-    method: str = FetchMethod.post, **kwargs
-) -> Union[bool, None]:
-    logger.debug(f"Fetch text: {url}")
-    async with session.request(method, url, **kwargs) as resp:
-        if not resp.ok:
-            return None
-        return await resp.text()
