@@ -31,7 +31,7 @@ sequenceDiagram
 
 ```bash
 git clone
-pip install -r requirements.txt
+poetry install
 ```
 
 将文件`.env.template`重命名为`.env`，并填入参数值：
@@ -47,10 +47,11 @@ CALLBACK_URL=回调地址，默认http post请求
 ### 直接启动
 
 ```bash
-# 启动监听机器人
-python task_bot.py
 # 启动http服务
-python server.py
+python main_server.py
+
+# 启动监听机器人
+python main_discord.py
 ```
 
 ### docker 启动

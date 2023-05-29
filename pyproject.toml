@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "midjourney-api"
+version = "0.1.0"
+description = ""
+authors = ["markshawn2020 <shawninjuly@gmail.com>"]
+readme = "README.md"
+packages = [{include = "midjourney_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+discord-py = "2.2.3"
+fastapi = "0.95"
+python-dotenv = "1.0.0"
+uvicorn = "0.22.0"
+pydantic = ">=1.10.7,<1.11.0"
+aiohttp = ">=3.8.4,<3.9.0"
+loguru = "0.7.0"
+aiofiles = "23.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
