@@ -3,7 +3,7 @@ from fastapi import FastAPI, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from src.exceptions import APPBaseException
+from src.lib.exceptions import APPBaseException
 
 
 def init_app():

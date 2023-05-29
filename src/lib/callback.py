@@ -5,8 +5,7 @@ import aiohttp
 from loguru import logger
 
 import settings
-from src.lib.api import CALLBACK_URL
-from src.util.fetch import fetch
+from src.lib.fetch import fetch
 
 
 async def callback(data):
@@ -15,7 +14,7 @@ async def callback(data):
             json.dump(data, f, ensure_ascii=False, indent=2)
     
     logger.debug(f"callback data: {data}")
-    if not CALLBACK_URL:
+    if not settings.CALLBACK_URL:
         return
     
     headers = {"Content-Type": "application/json"}
@@ -23,4 +22,4 @@ async def callback(data):
         timeout=aiohttp.ClientTimeout(total=30),
         headers=headers
     ) as session:
-        await fetch(session, CALLBACK_URL, json=data)
+        await fetch(session, settings.CALLBACK_URL, json=data)

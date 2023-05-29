@@ -1,23 +1,10 @@
 import json
-from enum import Enum
 from typing import Dict, Any
 
 import aiohttp
 
-from src.lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
-from src.util.fetch import fetch
-
-TRIGGER_URL = "https://discord.com/api/v9/interactions"
-UPLOAD_URL = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/attachments"
-
-
-class TriggerType(str, Enum):
-    generate = "generate"
-    upscale = "upscale"
-    variation = "variation"
-    max_upscale = "max_upscale"
-    reset = "reset"
-    describe = "describe"
+from settings import TRIGGER_URL, GUILD_ID, CHANNEL_ID, USER_TOKEN
+from src.lib.fetch import fetch
 
 
 async def trigger(payload: Dict[str, Any]):

@@ -5,16 +5,14 @@ from functools import wraps
 from fastapi import status
 from fastapi.responses import JSONResponse
 
-from src.exceptions import BannedPromptError
-from src.lib.prompt import BANNED_PROMPT
-
-PROMPT_PREFIX = "<#"
-PROMPT_SUFFIX = "#>"
+from settings import PROMPT_PREFIX, PROMPT_SUFFIX
+from src.lib.banned_prompts import BANNED_PROMPTS
+from src.lib.exceptions import BannedPromptError
 
 
 def check_banned(prompt: str):
     words = set(w.lower() for w in prompt.split())
-    if len(words & BANNED_PROMPT) != 0:
+    if len(words & BANNED_PROMPTS) != 0:
         raise BannedPromptError(f"banned prompt: {prompt}")
 
 

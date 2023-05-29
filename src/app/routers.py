@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from src.lib.api import discord
 from .handler import prompt_handler, http_response
 from .schema import TriggerImagineIn, TriggerUVIn, TriggerResetIn
+from ..lib import discord
 
 router = APIRouter()
 
