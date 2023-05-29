@@ -4,8 +4,8 @@ from typing import Dict, Any
 
 import aiohttp
 
-from lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
-from util.fetch import fetch
+from src.lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
+from src.util.fetch import fetch
 
 TRIGGER_URL = "https://discord.com/api/v9/interactions"
 UPLOAD_URL = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/attachments"
@@ -26,8 +26,8 @@ async def trigger(payload: Dict[str, Any]):
         "Authorization": USER_TOKEN
     }
     async with aiohttp.ClientSession(
-            timeout=aiohttp.ClientTimeout(total=30),
-            headers=headers
+        timeout=aiohttp.ClientTimeout(total=30),
+        headers=headers
     ) as session:
         return await fetch(session, TRIGGER_URL, data=json.dumps(payload))
 
@@ -63,7 +63,7 @@ async def generate(prompt: str, **kwargs):
         "application_command": {
             "id": "938956540159881230",
             "application_id": "936929561302675456",
-            "version":  "1077969938624553050",
+            "version": "1077969938624553050",
             "default_permission": True,
             "default_member_permissions": None,
             "type": 1,

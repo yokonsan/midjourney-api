@@ -1,18 +1,18 @@
 {
-  "type": "end",
-  "id": 1112838593312997377,
-  "content": "**<#7744309837#>string** - <@1093106715702083594> (fast)",
+  "type": "generating",
+  "id": 1112838432968949790,
+  "content": "**<#7744309837#>string** - <@1093106715702083594> (15%) (fast)",
   "attachments": [
     {
-      "filename": "gaosh_7744309837string_600f88ff-2147-40ad-83e4-50992c96aadb.png",
-      "id": 1112838592809664594,
-      "proxy_url": "https://media.discordapp.net/attachments/1104292240064520356/1112838592809664594/gaosh_7744309837string_600f88ff-2147-40ad-83e4-50992c96aadb.png",
-      "size": 6495329,
-      "url": "https://cdn.discordapp.com/attachments/1104292240064520356/1112838592809664594/gaosh_7744309837string_600f88ff-2147-40ad-83e4-50992c96aadb.png",
+      "filename": "grid_0.webp",
+      "id": 1112838499222179901,
+      "proxy_url": "https://media.discordapp.net/attachments/1104292240064520356/1112838499222179901/grid_0.webp",
+      "size": 26678,
+      "url": "https://cdn.discordapp.com/attachments/1104292240064520356/1112838499222179901/grid_0.webp",
       "spoiler": false,
-      "height": 2048,
-      "width": 2048,
-      "content_type": "image/png"
+      "height": 512,
+      "width": 512,
+      "content_type": "image/webp"
     }
   ],
   "trigger_id": "7744309837"

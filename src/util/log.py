@@ -1,11 +1,9 @@
 import sys
 from os import getenv
 
-from dotenv import load_dotenv
-from loguru import logger
+from loguru import logger as _logger
 
-# env config load
-load_dotenv()
+logger = _logger
 
 # logger config
 _lvl = getenv("LOG_LEVEL", default="ERROR")

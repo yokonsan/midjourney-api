@@ -1,6 +1,6 @@
 from os import getenv
 
-from exceptions import MissRequiredVariable
+from src.exceptions import MissRequiredVariable
 
 GUILD_ID = getenv("GUILD_ID")
 CHANNEL_ID = getenv("CHANNEL_ID")

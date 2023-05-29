@@ -4,11 +4,11 @@ from typing import Dict, Union
 
 from discord import Intents, Message
 from discord.ext import commands
-from loguru import logger
 
-from _typing import Attachment, CallbackData
-from app.handler import PROMPT_PREFIX, PROMPT_SUFFIX
-from lib.api.callback import callback
+from src._typing import Attachment, CallbackData
+from src.app.handler import PROMPT_PREFIX, PROMPT_SUFFIX
+from src.lib.api.callback import callback
+from src.util.log import logger
 
 intents = Intents.default()
 intents.message_content = True
@@ -23,7 +23,7 @@ class TriggerStatus(Enum):
     end = "end"  # 生成结束
     error = "error"  # 生成错误
     banned = "banned"  # 提示词被禁
-
+    
     verify = "verify"  # 需人工验证
 
 
@@ -59,13 +59,13 @@ async def on_ready():
 async def on_message(message: Message):
     if message.author.id != 936929561302675456:
         return
-
+    
     logger.debug(f"on_message: {message.content}")
     content = message.content
     trigger_id = match_trigger_id(content)
     if not trigger_id:
         return
-
+    
     if content.find("Waiting to start") != -1:
         type_ = TriggerStatus.start.value
         set_temp(trigger_id)
@@ -75,7 +75,7 @@ async def on_message(message: Message):
     else:
         type_ = TriggerStatus.end.value
         pop_temp(trigger_id)
-
+    
     await callback(CallbackData(
         type=type_,
         id=message.id,
@@ -92,11 +92,11 @@ async def on_message(message: Message):
 async def on_message_edit(_: Message, after: Message):
     if after.author.id != 936929561302675456:
         return
-
+    
     trigger_id = match_trigger_id(after.content)
     if not trigger_id:
         return
-
+    
     logger.debug(f"on_message_edit: {after.content}")
     if after.webhook_id != "":
         await callback(CallbackData(
@@ -115,15 +115,15 @@ async def on_message_edit(_: Message, after: Message):
 async def on_message_delete(message: Message):
     if message.author.id != 936929561302675456:
         return
-
+    
     trigger_id = match_trigger_id(message.content)
     if not trigger_id:
         return
-
+    
     logger.debug(f"on_message_delete: {message.content, TEMP_MAP}")
     if get_temp(trigger_id) is None:
         return
-
+    
     logger.warning(f"sensitive content: {message.content}")
     await callback(CallbackData(
         type=TriggerStatus.banned.value,

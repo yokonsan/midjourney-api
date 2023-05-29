@@ -4,16 +4,17 @@ from typing import Callable, Coroutine, Any, TypeVar, Union
 from aiohttp import ClientError, ClientSession, hdrs
 from loguru import logger
 
-from exceptions import MaxRetryError
+from src.exceptions import MaxRetryError
 
 T = TypeVar("T")
 
 
 class MaxRetry:
     """重试装饰器"""
+    
     def __init__(self, max_retry: int = 0):
         self.max_retry = max_retry
-
+    
     def __call__(self, connect_once: Callable[..., Coroutine[Any, Any, T]]) -> Callable[..., Coroutine[Any, Any, T]]:
         async def connect_n_times(*args: Any, **kwargs: Any) -> T:
             retry = self.max_retry + 1
@@ -28,7 +29,7 @@ class MaxRetry:
                 finally:
                     retry -= 1
             raise MaxRetryError("超出最大重试次数")
-
+        
         return connect_n_times
 
 
@@ -39,9 +40,9 @@ class FetchMethod:
 
 @MaxRetry()
 async def fetch(
-        session: ClientSession,
-        url: str,
-        method: str = FetchMethod.post, **kwargs
+    session: ClientSession,
+    url: str,
+    method: str = FetchMethod.post, **kwargs
 ) -> Union[bool, None]:
     logger.debug(f"Fetch: {url}")
     async with session.request(method, url, **kwargs) as resp:
@@ -52,9 +53,9 @@ async def fetch(
 
 @MaxRetry()
 async def fetch_text(
-        session: ClientSession,
-        url: str,
-        method: str = FetchMethod.post, **kwargs
+    session: ClientSession,
+    url: str,
+    method: str = FetchMethod.post, **kwargs
 ) -> Union[bool, None]:
     logger.debug(f"Fetch text: {url}")
     async with session.request(method, url, **kwargs) as resp:

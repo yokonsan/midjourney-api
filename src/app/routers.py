@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from lib.api import discord
+from src.lib.api import discord
 from .handler import prompt_handler, http_response
 from .schema import TriggerImagineIn, TriggerUVIn, TriggerResetIn
 
