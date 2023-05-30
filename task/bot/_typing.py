@@ -1,4 +1,4 @@
-from typing import TypedDict, List
+from typing import TypedDict, List, Union
 
 
 class Attachment(TypedDict):
@@ -13,10 +13,22 @@ class Attachment(TypedDict):
     ephemeral: bool
 
 
+class EmbedsImage(TypedDict):
+    url: str
+    proxy_url: str
+
+
+class Embed(TypedDict):
+    type: str
+    description: str
+    image: EmbedsImage
+
+
 class CallbackData(TypedDict):
     type: str
     id: int
     content: str
     attachments: List[Attachment]
+    embeds: List[Embed]
 
     trigger_id: str

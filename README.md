@@ -4,6 +4,8 @@
 
 使用教程参考：[Midjourney｜如何集成到自己的平台](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
 
+**添加 Midjourney 违禁词入口 [issue](https://github.com/yokonsan/midjourney-api/issues/new?assignees=&labels=banned+prompt&projects=&template=banned_prompt_report.yml&title=Banned+prompt%3A+)**
+
 
 ## UML
 
@@ -76,7 +78,8 @@ sh start.sh
 - [x]  `/v1/api/trigger/upscale`：U
 - [x]  `/v1/api/trigger/variation`：V
 - [x]  `/v1/api/trigger/reset`：重绘
-- [ ]  `/v1/api/upload`：上传图片，触发任务，待开发
+- [x]  `/v1/api/upload`：上传图片
+- [x] `/v1/api/describe`：通过上传图片名，生成 Prompt
 
 
 ## 使用
@@ -142,13 +145,44 @@ curl -X 'POST' \
 }'
 ```
 
+### describe
+
+1. 先上传图片
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/upload' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@cH16Ifh.jpg;type=image/jpeg'
+```
+
+2. 根据返回的图片文件名，调用 describe
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/describe' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "upload_filename": "b56ca21a-5fbe-40b4-89ab-6e0aa732f561/9231228408.jpg",
+  "trigger_id": "9231228408"
+}'
+```
+
+- `trigger_id` 先用 upload 返回的 trigger_id
+- `upload_filename` upload 返回的文件名
+
 ## 功能
 
-- [x] 文生图
+- [x] imagine
 - [x] upscale
 - [x] variation
 - [x] reset
-- [ ] 图生图
+- [x] describe
+- [ ] 图生图（获取到上传图片的链接）
+- [x] 敏感词过滤上报
+- [ ] tests
 
 ## enjoy it
 
