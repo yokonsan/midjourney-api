@@ -80,6 +80,6 @@ class TaskQueue:
 
 
 taskqueue = TaskQueue(
-    int(getenv("CONCUR_SIZE") or 2),
-    int(getenv("WAIT_SIZE") or 3),
+    int(getenv("CONCUR_SIZE") or 3),
+    int(getenv("WAIT_SIZE") or 10),
 )
