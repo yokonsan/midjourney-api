@@ -24,11 +24,11 @@ QUEUE_RELEASE_API = getenv("QUEUE_RELEASE_API") \
                     or "http://127.0.0.1:8062/v1/api/trigger/queue/release"
 
 
-async def queue_release(trigger_id: str, trigger_type: str):
-    logger.debug(f"queue_release: {trigger_id, trigger_type}")
+async def queue_release(trigger_id: str):
+    logger.debug(f"queue_release: {trigger_id}")
 
     headers = {"Content-Type": "application/json"}
-    data = {"trigger_id": trigger_id, "trigger_type": trigger_type}
+    data = {"trigger_id": trigger_id}
     async with aiohttp.ClientSession(
             timeout=aiohttp.ClientTimeout(total=30),
             headers=headers

@@ -21,7 +21,7 @@ async def imagine(body: TriggerImagineIn):
     trigger_id, prompt = prompt_handler(body.prompt)
     trigger_type = TriggerType.generate.value
 
-    taskqueue.put(trigger_id, trigger_type, discord.generate, prompt)
+    taskqueue.put(trigger_id, discord.generate, prompt)
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
@@ -30,7 +30,7 @@ async def upscale(body: TriggerUVIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.upscale.value
 
-    taskqueue.put(trigger_id, trigger_type, discord.upscale, **body.dict())
+    taskqueue.put(trigger_id, discord.upscale, **body.dict())
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
@@ -39,7 +39,7 @@ async def variation(body: TriggerUVIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.variation.value
 
-    taskqueue.put(trigger_id, trigger_type, discord.variation, **body.dict())
+    taskqueue.put(trigger_id, discord.variation, **body.dict())
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
@@ -48,7 +48,7 @@ async def reset(body: TriggerResetIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.reset.value
 
-    taskqueue.put(trigger_id, trigger_type, discord.reset, **body.dict())
+    taskqueue.put(trigger_id, discord.reset, **body.dict())
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
@@ -57,7 +57,7 @@ async def describe(body: TriggerDescribeIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.describe.value
 
-    taskqueue.put(trigger_id, trigger_type, discord.describe, **body.dict())
+    taskqueue.put(trigger_id, discord.describe, **body.dict())
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
@@ -87,6 +87,6 @@ async def upload(file: UploadFile):
 @router.post("/queue/release", response_model=TriggerResponse)
 async def queue_release(body: QueueReleaseIn):
     """bot 清除队列任务"""
-    taskqueue.pop((body.trigger_id, body.trigger_type))
+    taskqueue.pop(body.trigger_id)
 
     return body

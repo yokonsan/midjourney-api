@@ -1,7 +1,7 @@
 import asyncio
 from collections import deque
 from os import getenv
-from typing import ParamSpec, Callable, Any, Tuple, Dict, List, Deque
+from typing import ParamSpec, Callable, Any, Dict, List, Deque
 
 from loguru import logger
 
@@ -29,13 +29,12 @@ class TaskQueue:
     def __init__(self, concur_size: int, wait_size: int) -> None:
         self._concur_size = concur_size
         self._wait_size = wait_size
-        self._wait_queue: Deque[Dict[Tuple[str, str], Task]] = deque()
-        self._concur_queue: List[Tuple[str, str]] = []
+        self._wait_queue: Deque[Dict[str, Task]] = deque()
+        self._concur_queue: List[str] = []
 
     def put(
             self,
             _trigger_id: str,
-            trigger_type: str,
             func: Callable[P, Any],
             *args: P.args,
             **kwargs: P.kwargs
@@ -44,27 +43,28 @@ class TaskQueue:
             raise QueueFullError(f"Task queue is full: {self._wait_size}")
 
         self._wait_queue.append({
-            (_trigger_id, trigger_type): Task(func, *args, **kwargs)
+            _trigger_id: Task(func, *args, **kwargs)
         })
         while self._wait_queue and len(self._concur_queue) < self._concur_size:
             self._exec()
 
-    def pop(self, _trigger_id: str, trigger_type: str, ) -> None:
-        self._concur_queue.remove((_trigger_id, trigger_type))
+    def pop(self, _trigger_id: str) -> None:
+        print(_trigger_id, self._concur_queue)
+        self._concur_queue.remove(_trigger_id)
         if self._wait_queue:
             self._exec()
 
     def _exec(self):
         key, task = self._wait_queue.popleft().popitem()
+        self._concur_queue.append(key)
 
         logger.debug(f"Task[{key}] start execution: {task}")
         loop = asyncio.get_running_loop()
         tsk = loop.create_task(task())
-        tsk.add_done_callback(
-            lambda t: print(t.result())
-        )  # todo
+        # tsk.add_done_callback(
+        #     lambda t: print(t.result())
+        # )  # todo
 
-        self._concur_queue.append(key)
 
     def concur_size(self):
         return self._concur_size

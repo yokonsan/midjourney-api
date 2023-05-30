@@ -21,8 +21,8 @@ def set_temp(trigger_id: str):
     TEMP_MAP[trigger_id] = True
 
 
-def pop_temp(trigger_id: str, trigger_type: str):
-    asyncio.get_running_loop().run_until_complete(queue_release(trigger_id, trigger_type))
+def pop_temp(trigger_id: str):
+    asyncio.get_event_loop().create_task(queue_release(trigger_id))
     try:
         TEMP_MAP.pop(trigger_id)
     except KeyError:

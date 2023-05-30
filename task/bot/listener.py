@@ -20,7 +20,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message: Message):
-    if message.author.id != "936929561302675456":
+    if message.author.id != 936929561302675456:
         return
 
     logger.debug(f"on_message: {message.content}")
@@ -35,26 +35,30 @@ async def on_message(message: Message):
         set_temp(trigger_id)
     elif content.find("(Stopped)") != -1:
         trigger_status = TriggerStatus.error.value
-        pop_temp(trigger_id, trigger_status)
+        pop_temp(trigger_id)
     else:
         trigger_status = TriggerStatus.end.value
-        pop_temp(trigger_id, trigger_status)
+        pop_temp(trigger_id)
 
     await callback_trigger(trigger_id, trigger_status, message)
 
 
 @bot.event
 async def on_message_edit(_: Message, after: Message):
-    if after.author.id != "936929561302675456":
+    if after.author.id != 936929561302675456:
         return
 
     logger.debug(f"on_message_edit: {after.content}")
     if after.embeds:
-        embed = after.embeds[0].to_dict()
+        embed = after.embeds[0]
+        if not (embed.image.width and embed.image.height):
+            return
+
+        embed = embed.to_dict()
         logger.debug(f"on_message_edit embeds: {embed}")
         trigger_status = TriggerStatus.text.value
         trigger_id = await callback_describe(trigger_status, after, embed)
-        pop_temp(trigger_id, trigger_status)
+        pop_temp(trigger_id)
         return
 
     trigger_id = match_trigger_id(after.content)
@@ -67,7 +71,7 @@ async def on_message_edit(_: Message, after: Message):
 
 @bot.event
 async def on_message_delete(message: Message):
-    if message.author.id != "936929561302675456":
+    if message.author.id != 936929561302675456:
         return
 
     trigger_id = match_trigger_id(message.content)
@@ -79,4 +83,6 @@ async def on_message_delete(message: Message):
         return
 
     logger.warning(f"sensitive content: {message.content}")
-    await callback_trigger(trigger_id, TriggerStatus.banned.value, message)
+    trigger_status = TriggerStatus.banned.value
+    pop_temp(trigger_id)
+    await callback_trigger(trigger_id, trigger_status, message)

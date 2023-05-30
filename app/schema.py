@@ -27,13 +27,12 @@ class TriggerDescribeIn(BaseModel):
 
 class QueueReleaseIn(BaseModel):
     trigger_id: str
-    trigger_type: str
 
 
 class TriggerResponse(BaseModel):
     message: str = "success"
     trigger_id: str
-    trigger_type: str
+    trigger_type: str = ""
 
 
 class UploadResponse(BaseModel):
