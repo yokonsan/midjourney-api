@@ -1,5 +1,5 @@
 import asyncio
-from typing import Callable, Coroutine, Any, TypeVar, Union
+from typing import Callable, Coroutine, Any, TypeVar, Union, Dict
 
 from aiohttp import ClientError, ClientSession, hdrs
 from loguru import logger
@@ -21,7 +21,7 @@ class MaxRetry:
                 try:
                     return await connect_once(*args, **kwargs)
                 except ClientError as e:
-                    await asyncio.sleep(0.5)
+                    await asyncio.sleep(1)
                     logger.warning(f"请求失败（{e.__class__.__name__}），正在重试，剩余 {retry - 1} 次")
                 except asyncio.TimeoutError:
                     logger.warning(f"请求超时，正在重试，剩余 {retry - 1} 次")
@@ -35,29 +35,30 @@ class MaxRetry:
 class FetchMethod:
     get = hdrs.METH_GET
     post = hdrs.METH_POST
+    put = hdrs.METH_PUT
 
 
-@MaxRetry()
+@MaxRetry(2)
 async def fetch(
         session: ClientSession,
         url: str,
         method: str = FetchMethod.post, **kwargs
 ) -> Union[bool, None]:
-    logger.debug(f"Fetch: {url}")
+    logger.debug(f"Fetch: {url}, {kwargs}")
     async with session.request(method, url, **kwargs) as resp:
         if not resp.ok:
             return None
         return True
 
 
-@MaxRetry()
-async def fetch_text(
+@MaxRetry(2)
+async def fetch_json(
         session: ClientSession,
         url: str,
         method: str = FetchMethod.post, **kwargs
-) -> Union[bool, None]:
+) -> Union[Dict, None]:
     logger.debug(f"Fetch text: {url}")
     async with session.request(method, url, **kwargs) as resp:
         if not resp.ok:
             return None
-        return await resp.text()
+        return await resp.json()

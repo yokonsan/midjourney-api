@@ -3,7 +3,7 @@ from fastapi import FastAPI, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from exceptions import APPBaseException
+from exceptions import APPBaseException, ErrorCode
 
 
 def init_app():
@@ -20,20 +20,26 @@ def exc_handler(_app):
     def validation_exception_handler(_, exc: RequestValidationError):
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content=f"request params error: {exc.body}",
+            content={
+                "code": ErrorCode.REQUEST_PARAMS_ERROR.value,
+                "message": f"request params error: {exc.body}"
+            },
         )
 
     @_app.exception_handler(APPBaseException)
     def validation_exception_handler(_, exc: APPBaseException):
         return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content=exc.message,
+            status_code=status.HTTP_200_OK,
+            content={
+                "code": exc.code.value,
+                "message": exc.message
+            },
         )
 
 
 def register_blueprints(_app):
     from app import routers
-    _app.include_router(routers.router, prefix="/v1/api")
+    _app.include_router(routers.router, prefix="/v1/api/trigger")
 
 
 def run(host, port):

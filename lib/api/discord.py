@@ -1,14 +1,18 @@
 import json
 from enum import Enum
-from typing import Dict, Any
+from typing import Dict, Any, Union
 
 import aiohttp
 
 from lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
-from util.fetch import fetch
+from util.fetch import fetch, fetch_json
 
 TRIGGER_URL = "https://discord.com/api/v9/interactions"
 UPLOAD_URL = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/attachments"
+HEADERS = {
+    "Content-Type": "application/json",
+    "Authorization": USER_TOKEN
+}
 
 
 class TriggerType(str, Enum):
@@ -21,19 +25,29 @@ class TriggerType(str, Enum):
 
 
 async def trigger(payload: Dict[str, Any]):
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": USER_TOKEN
-    }
     async with aiohttp.ClientSession(
             timeout=aiohttp.ClientTimeout(total=30),
-            headers=headers
+            headers=HEADERS
     ) as session:
         return await fetch(session, TRIGGER_URL, data=json.dumps(payload))
 
 
-async def upload():
-    pass
+async def upload(filename: str, file_size: int) -> Union[Dict[str, Union[str, int]], None]:
+    payload = {
+        "files": [{
+            "filename": filename,
+            "file_size": file_size,
+            "id": "0"
+        }]
+    }
+    async with aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=30),
+            headers=HEADERS
+    ) as session:
+        data = await fetch_json(session, UPLOAD_URL, data=json.dumps(payload))
+        attachments = data.get("attachments")
+
+        return attachments[0] if attachments else None
 
 
 def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, Any]:
@@ -114,7 +128,7 @@ async def max_upscale(msg_id: str, msg_hash: str, **kwargs):
     }
     payload = _trigger_payload(3, {
         "component_type": 2,
-        "custom_id": f"MJ::JOB::variation::1::{msg_hash}::SOLO"
+        "custom_id": f"MJ::JOB::upsample_max::1::{msg_hash}::SOLO"
     }, **kwargs)
     return await trigger(payload)
 
@@ -139,7 +153,7 @@ async def describe(upload_filename: str, **kwargs):
         "type": 1,
         "options": [{
             "type": 11,
-            "name": "prompt",
+            "name": "image",
             "value": 0
         }],
         "application_command": {
@@ -162,7 +176,7 @@ async def describe(upload_filename: str, **kwargs):
         },
         "attachments": [{
             "id": "0",
-            "filename": "",
+            "filename": upload_filename.split("/")[-1],
             "uploaded_filename": upload_filename,
         }]
     })
