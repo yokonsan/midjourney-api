@@ -6,3 +6,4 @@ pydantic~=1.10.7
 aiohttp~=3.8.4
 loguru==0.7.0
 aiofiles==23.1.0
+python-multipart==0.0.6

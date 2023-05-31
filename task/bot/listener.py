@@ -3,10 +3,14 @@ from discord.ext import commands
 from loguru import logger
 
 from task.bot import TriggerStatus
-from task.bot._typing import Attachment, CallbackData
-from lib.api.callback import callback
-from task.bot.handler import match_trigger_id, set_temp, pop_temp, get_temp, TEMP_MAP, callback_trigger, \
+from task.bot.handler import (
+    match_trigger_id,
+    set_temp,
+    pop_temp,
+    get_temp,
+    callback_trigger,
     callback_describe
+)
 
 intents = Intents.default()
 intents.message_content = True
@@ -78,10 +82,10 @@ async def on_message_delete(message: Message):
     if not trigger_id:
         return
 
-    logger.debug(f"on_message_delete: {message.content, TEMP_MAP}")
     if get_temp(trigger_id) is None:
         return
 
+    logger.debug(f"on_message_delete: {message.content}")
     logger.warning(f"sensitive content: {message.content}")
     trigger_status = TriggerStatus.banned.value
     pop_temp(trigger_id)
