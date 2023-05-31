@@ -15,15 +15,15 @@ sequenceDiagram
     participant APIServer
     participant DiscordAPI
 
-    ThirdServer->>APIServer: 请求接口传入提示词
+    ThirdServer->>APIServer: 请求接口触发任务
+    APIServer->>APIServer: 放入任务队列
     APIServer->>DiscordAPI: 调接口触发绘画任务
     APIServer-->>ThirdServer: 返回是否触发成功
 
     DiscordAPI->>DiscordAPI: 触发Midjourney bot绘画任务
     DiscordAPI->>DiscordAPI: 监听MidJourney bot消息
-    DiscordAPI-->>APIServer: 返回监听实时消息
-
-	APIServer-->>ThirdServer: 回调，传输结果
+    DiscordAPI-->>ThirdServer: 返回监听实时消息
+    DiscordAPI-->>APIServer: 清除队列任务
 ```
 
 
@@ -53,6 +53,17 @@ python task_bot.py
 python server.py
 ```
 
+#### 更新
+
+```bash
+git pull
+
+# 启动监听机器人
+python task_bot.py
+# 启动http服务
+python server.py
+```
+
 ### docker 启动
 
 填写 [start.sh](./start.sh) 中 `-e` 后的环境变量，直接启动：
@@ -67,6 +78,13 @@ sh start.sh
 # 构建镜像
 sh build.sh
 # 启动容器
+sh start.sh
+```
+
+#### 更新
+
+```bash
+docker rmi kunyu/midjourney-api:1.0
 sh start.sh
 ```
 
@@ -182,9 +200,7 @@ curl -X 'POST' \
 - [x] describe
 - [ ] 图生图（获取到上传图片的链接）
 - [x] 敏感词过滤上报
+- [x] 任务队列（内存存储，不希望引入外建，可加入异常落盘）
 - [ ] tests
 
 ## enjoy it
-
----
-
