@@ -5,10 +5,11 @@ from typing import Dict, Any, Union
 import aiohttp
 
 from lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
-from util.fetch import fetch, fetch_json
+from util.fetch import fetch, fetch_json, FetchMethod
 
 TRIGGER_URL = "https://discord.com/api/v9/interactions"
-UPLOAD_URL = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/attachments"
+UPLOAD_ATTACHMENT_URL = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/attachments"
+SEND_MESSAGE_URL = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/messages"
 HEADERS = {
     "Content-Type": "application/json",
     "Authorization": USER_TOKEN
@@ -32,7 +33,9 @@ async def trigger(payload: Dict[str, Any]):
         return await fetch(session, TRIGGER_URL, data=json.dumps(payload))
 
 
-async def upload(filename: str, file_size: int) -> Union[Dict[str, Union[str, int]], None]:
+async def upload_attachment(
+        filename: str, file_size: int, image: bytes
+) -> Union[Dict[str, Union[str, int]], None]:
     payload = {
         "files": [{
             "filename": filename,
@@ -44,10 +47,55 @@ async def upload(filename: str, file_size: int) -> Union[Dict[str, Union[str, in
             timeout=aiohttp.ClientTimeout(total=30),
             headers=HEADERS
     ) as session:
-        data = await fetch_json(session, UPLOAD_URL, data=json.dumps(payload))
-        attachments = data.get("attachments")
+        response = await fetch_json(session, UPLOAD_ATTACHMENT_URL, data=json.dumps(payload))
+        if not response or not response.get("attachments"):
+            return None
 
-        return attachments[0] if attachments else None
+        attachment = response["attachments"][0]
+
+    response = await put_attachment(attachment.get("upload_url"), image)
+    return attachment if response is not None else None
+
+
+async def put_attachment(url: str, image: bytes):
+    headers = {"Content-Type": "image/png"}
+    async with aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=30),
+            headers=headers
+    ) as session:
+        return await fetch(session, url, data=image, method=FetchMethod.put)
+
+
+async def send_attachment_message(
+        filename: str, file_size: int, image: bytes
+) -> Union[str, None]:
+    attachment = await upload_attachment(filename, file_size, image)
+    if not (attachment and attachment.get("upload_filename")):
+        return None
+
+    upload_filename = attachment["upload_filename"]
+    payload = {
+        "content": "",
+        "nonce": "",
+        "channel_id": "1105829904790065223",
+        "type": 0,
+        "sticker_ids": [],
+        "attachments": [{
+            "id": "0",
+            "filename": upload_filename.split("/")[-1],
+            "uploaded_filename": upload_filename
+        }]
+    }
+    async with aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=30),
+            headers=HEADERS
+    ) as session:
+        response = await fetch_json(session, SEND_MESSAGE_URL, data=json.dumps(payload))
+        if not response or not response.get("attachments"):
+            return None
+
+        attachment = response["attachments"][0]
+        return attachment.get("url")
 
 
 def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, Any]:

@@ -1,8 +1,7 @@
 from fastapi import APIRouter, UploadFile
 
 from lib.api import discord
-from lib.api.attachments import put_attachment
-from lib.api.discord import TriggerType
+from lib.api.discord import TriggerType, put_attachment
 from util._queue import taskqueue
 from .handler import prompt_handler, unique_id
 from .schema import (
@@ -10,7 +9,7 @@ from .schema import (
     TriggerUVIn,
     TriggerResetIn,
     QueueReleaseIn,
-    TriggerResponse, UploadResponse, TriggerDescribeIn,
+    TriggerResponse, UploadResponse, TriggerDescribeIn, SendMessageResponse,
 )
 
 router = APIRouter()
@@ -62,26 +61,34 @@ async def describe(body: TriggerDescribeIn):
 
 
 @router.post("/upload", response_model=UploadResponse)
-async def upload(file: UploadFile):
+async def upload_attachment(file: UploadFile):
     if not file.content_type.startswith("image/"):
         return {"message": "must image"}
 
     trigger_id = str(unique_id())
     filename = f"{trigger_id}.jpg"
     file_size = file.size
-    data = await discord.upload(filename, file_size)
-    if not (data and data.get("upload_url")):
-        return {"message": "Failed to upload image"}
-
-    resp = await put_attachment(data["upload_url"], await file.read())
-    if not resp:
+    attachment = await discord.upload_attachment(filename, file_size, await file.read())
+    if not (attachment and attachment.get("upload_url")):
         return {"message": "Failed to upload image"}
 
     return {
-        "upload_filename": data.get("upload_filename"),
-        "upload_url": data.get("upload_url"),
+        "upload_filename": attachment.get("upload_filename"),
+        "upload_url": attachment.get("upload_url"),
         "trigger_id": trigger_id,
     }
+
+
+@router.post("/message", response_model=SendMessageResponse)
+async def send_message(file: UploadFile):
+    if not file.content_type.startswith("image/"):
+        return {"message": "must image"}
+
+    picurl = await discord.send_attachment_message(file.filename, file.size, await file.read())
+    if not picurl:
+        return {"message": "Failed to send message"}
+
+    return {"picurl": picurl}
 
 
 @router.post("/queue/release", response_model=TriggerResponse)
