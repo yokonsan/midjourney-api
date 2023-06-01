@@ -49,7 +49,6 @@ class TaskQueue:
             self._exec()
 
     def pop(self, _trigger_id: str) -> None:
-        print(_trigger_id, self._concur_queue)
         self._concur_queue.remove(_trigger_id)
         if self._wait_queue:
             self._exec()

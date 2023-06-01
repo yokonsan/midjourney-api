@@ -41,7 +41,7 @@ USER_TOKEN=用户token
 BOT_TOKEN=机器人token
 GUILD_ID=服务器ID
 CHANNEL_ID=频道ID
-CALLBACK_URL=回调地址，默认http post请求
+CALLBACK_URL=回调地址，默认http post请求，用于接收 midjourney 作图进度和结果的服务
 ```
 
 ### 直接启动
@@ -92,12 +92,13 @@ sh start.sh
 
 `midjourney-api` 提供接口：
 
-- [x]  `/v1/api/trigger/imagine`：触发绘画任务
+- [x]  `/v1/api/trigger/imagine`：触发绘画任务（图生图，Prompt 前加上图片链接即可）
 - [x]  `/v1/api/trigger/upscale`：U
 - [x]  `/v1/api/trigger/variation`：V
 - [x]  `/v1/api/trigger/reset`：重绘
-- [x]  `/v1/api/upload`：上传图片
-- [x] `/v1/api/describe`：通过上传图片名，生成 Prompt
+- [x]  `/v1/api/trigger/upload`：上传图片
+- [x]  `/v1/api/trigger/describe`：通过上传图片名，生成 Prompt
+- [x] `/v1/api/trigger/message`：发送图片消息，返回图片链接，用于图生图功能
 
 
 ## 使用
@@ -191,6 +192,20 @@ curl -X 'POST' \
 - `trigger_id` 先用 upload 返回的 trigger_id
 - `upload_filename` upload 返回的文件名
 
+### message
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/message' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@WechatIMG1969.jpeg;type=image/jpeg'
+```
+
+上传图片后，会返回图片链接。
+该链接用于以图生图中，拼接 Prompt 形如 `图片URL Prompt`，调用 `/v1/api/trigger/imagine`。
+
+
 ## 功能
 
 - [x] imagine
@@ -198,7 +213,7 @@ curl -X 'POST' \
 - [x] variation
 - [x] reset
 - [x] describe
-- [ ] 图生图（获取到上传图片的链接）
+- [x] 图生图（获取到上传图片的链接）
 - [x] 敏感词过滤上报
 - [x] 任务队列（内存存储，不希望引入外建，可加入异常落盘）
 - [ ] tests
