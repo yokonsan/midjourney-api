@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile
 
 from lib.api import discord
-from lib.api.discord import TriggerType, put_attachment
+from lib.api.discord import TriggerType
 from util._queue import taskqueue
 from .handler import prompt_handler, unique_id
 from .schema import (
@@ -9,7 +9,10 @@ from .schema import (
     TriggerUVIn,
     TriggerResetIn,
     QueueReleaseIn,
-    TriggerResponse, UploadResponse, TriggerDescribeIn, SendMessageResponse,
+    TriggerResponse,
+    UploadResponse,
+    TriggerDescribeIn,
+    SendMessageResponse, SendMessageIn,
 )
 
 router = APIRouter()
@@ -80,11 +83,8 @@ async def upload_attachment(file: UploadFile):
 
 
 @router.post("/message", response_model=SendMessageResponse)
-async def send_message(file: UploadFile):
-    if not file.content_type.startswith("image/"):
-        return {"message": "must image"}
-
-    picurl = await discord.send_attachment_message(file.filename, file.size, await file.read())
+async def send_message(body: SendMessageIn):
+    picurl = await discord.send_attachment_message(body.upload_filename)
     if not picurl:
         return {"message": "Failed to send message"}
 

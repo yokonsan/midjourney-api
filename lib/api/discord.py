@@ -66,14 +66,7 @@ async def put_attachment(url: str, image: bytes):
         return await fetch(session, url, data=image, method=FetchMethod.put)
 
 
-async def send_attachment_message(
-        filename: str, file_size: int, image: bytes
-) -> Union[str, None]:
-    attachment = await upload_attachment(filename, file_size, image)
-    if not (attachment and attachment.get("upload_filename")):
-        return None
-
-    upload_filename = attachment["upload_filename"]
+async def send_attachment_message(upload_filename: str) -> Union[str, None]:
     payload = {
         "content": "",
         "nonce": "",
