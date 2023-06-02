@@ -42,6 +42,10 @@ class UploadResponse(BaseModel):
     trigger_id: str
 
 
+class SendMessageIn(BaseModel):
+    upload_filename: str
+
+
 class SendMessageResponse(BaseModel):
     message: str = "success"
     picurl: str

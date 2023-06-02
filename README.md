@@ -194,15 +194,19 @@ curl -X 'POST' \
 
 ### message
 
+和 `describe` 一样，先 `/v1/api/trigger/upload` 上传图片，然后根据返回文件名，发送消息：
+
 ```bash
 curl -X 'POST' \
   'http://127.0.0.1:8062/v1/api/trigger/message' \
   -H 'accept: application/json' \
-  -H 'Content-Type: multipart/form-data' \
-  -F 'file=@WechatIMG1969.jpeg;type=image/jpeg'
+  -H 'Content-Type: application/json' \
+  -d '{
+  "upload_filename": "560a1e26-36a2-4d5f-a48d-9dd877642b51/7185811546.jpg"
+}'
 ```
 
-上传图片后，会返回图片链接。
+发送图片后，会返回图片链接。
 该链接用于以图生图中，拼接 Prompt 形如 `图片URL Prompt`，调用 `/v1/api/trigger/imagine`。
 
 
