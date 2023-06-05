@@ -12,7 +12,8 @@ from .schema import (
     TriggerResponse,
     UploadResponse,
     TriggerDescribeIn,
-    SendMessageResponse, SendMessageIn,
+    SendMessageResponse,
+    SendMessageIn,
 )
 
 router = APIRouter()
@@ -20,7 +21,7 @@ router = APIRouter()
 
 @router.post("/imagine", response_model=TriggerResponse)
 async def imagine(body: TriggerImagineIn):
-    trigger_id, prompt = prompt_handler(body.prompt)
+    trigger_id, prompt = prompt_handler(body.prompt, body.picurl)
     trigger_type = TriggerType.generate.value
 
     taskqueue.put(trigger_id, discord.generate, prompt)

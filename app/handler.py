@@ -1,6 +1,7 @@
 import hashlib
 import time
 from functools import wraps
+from typing import Union
 
 from fastapi import status
 from fastapi.responses import JSONResponse
@@ -23,14 +24,18 @@ def unique_id():
     return int(hashlib.sha256(str(time.time()).encode("utf-8")).hexdigest(), 16) % 10**10
 
 
-def prompt_handler(prompt: str):
+def prompt_handler(prompt: str, picurl: Union[str, None] = None):
     """
     拼接 Prompt 形如: <#1234567890#>a cute cat
     """
     check_banned(prompt)
 
     trigger_id = str(unique_id())
-    return trigger_id, f"{PROMPT_PREFIX}{trigger_id}{PROMPT_SUFFIX}{prompt}"
+
+    if not picurl and prompt.startswith(("http://", "https://")):
+        picurl, _, prompt = prompt.partition(" ")
+
+    return trigger_id, f"{picurl+' ' if picurl else ''}{PROMPT_PREFIX}{trigger_id}{PROMPT_SUFFIX}{prompt}"
 
 
 def http_response(func):

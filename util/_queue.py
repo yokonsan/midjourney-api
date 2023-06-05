@@ -64,7 +64,6 @@ class TaskQueue:
         #     lambda t: print(t.result())
         # )  # todo
 
-
     def concur_size(self):
         return self._concur_size
 
@@ -79,6 +78,6 @@ class TaskQueue:
 
 
 taskqueue = TaskQueue(
-    int(getenv("CONCUR_SIZE") or 3),
-    int(getenv("WAIT_SIZE") or 10),
+    int(getenv("CONCUR_SIZE") or 9999),
+    int(getenv("WAIT_SIZE") or 9999),
 )

@@ -1,8 +1,11 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class TriggerImagineIn(BaseModel):
     prompt: str
+    picurl: Optional[str]
 
 
 class TriggerUVIn(BaseModel):
