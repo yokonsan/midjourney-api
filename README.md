@@ -2,8 +2,6 @@
 
 基于 Discord 的 Midjourney API。
 
-使用教程参考：[Midjourney｜如何集成到自己的平台](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
-
 **添加 Midjourney 违禁词入口 [issue](https://github.com/yokonsan/midjourney-api/issues/new?assignees=&labels=banned+prompt&projects=&template=banned_prompt_report.yml&title=Banned+prompt%3A+)**
 
 
@@ -25,6 +23,12 @@ sequenceDiagram
     DiscordAPI-->>ThirdServer: 返回监听实时消息
     DiscordAPI-->>APIServer: 清除队列任务
 ```
+
+## 使用条件
+
+1. 确保程序启动环境能访问 Discord
+2. 已有 Midjourney、Discord 账户
+3. 创建 Discord 频道并添加机器人，参考教程 [Midjourney｜如何集成到自己的平台](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
 
 
 ## 安装启动
@@ -105,6 +109,8 @@ sh start.sh
 
 ### imagine
 
+文生图
+
 ```bash
 curl -X 'POST' \
   'http://127.0.0.1:8062/v1/api/trigger/imagine' \
@@ -112,6 +118,19 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' \
   -d '{
   "prompt": "a cute cat"
+}'
+```
+
+图生图，需带上图片 URL
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/imagine' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "prompt": "a cute cat",
+  "picurl": "https://xxxxxx/xxxxxxxxxxxx.jpg"
 }'
 ```
 
