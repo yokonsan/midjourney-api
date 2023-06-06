@@ -4,6 +4,8 @@
 
 **添加 Midjourney 违禁词入口 [issue](https://github.com/yokonsan/midjourney-api/issues/new?assignees=&labels=banned+prompt&projects=&template=banned_prompt_report.yml&title=Banned+prompt%3A+)**
 
+项目集成 Demo 参考：[issue31](https://github.com/yokonsan/midjourney-api/issues/31)
+
 
 ## UML
 
