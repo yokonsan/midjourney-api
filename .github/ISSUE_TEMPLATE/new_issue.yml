@@ -1,0 +1,60 @@
+name: "🐛 新建 issue"
+description: 上报一个新的 issue
+title: "🐛 "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        非常感谢你的 issue report (๑>؂<๑），为了使我们能够更快地定位问题来源，请尽可能完整地填写本 Issue 表格
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题简述
+      description: 详述你所遇到的问题（如有报错也请粘贴在这里）～
+      placeholder: |
+        如果方便，请提供更加详细的日志信息
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现方式
+      description: |
+        请在这里提供你复现改问题的方法。
+        为了节省彼此交流的时间，麻烦在提交 issue 前多次测试该问题是能够反复复现的（非网络问题）。
+      placeholder: "注意在粘贴的命令中隐去所有隐私信息哦(*/ω＼*)"
+    validations:
+      required: true
+  - type: textarea
+    id: environment-info
+    attributes:
+      label: 环境信息
+      description: 请尽可能详细地供以下信息～
+      placeholder: 你的环境信息～
+      value: |
+        -  OS: 操作系统类型及其版本号
+        -  Python: Python 版本号 (`python --version`)
+        -  Others: 其它信息
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 额外信息
+      description: 请尽可能提供一些你认为可能产生该问题的一些原因
+      placeholder: 如有额外的信息，请填写在这里～
+    validations:
+      required: false
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: 一点点的自我检查
+      description: 在你提交 issue 之前，麻烦确认自己是否已经完成了以下检查：
+      options:
+        - label: 充分阅读 [README.md](https://github.com/yokonsan/midjourney-api)，特别是与本 issue 相关的部分
+          required: true
+        - label: 如果是网络问题，已经检查网络连接、设置是否正常，并经过充分测试认为这是项目本身的问题
+          required: true
+        - label: 本 issue 在 [issues](https://github.com/yokonsan/midjourney-api/issues) 中并没有重复问题
+          required: true
