@@ -106,7 +106,7 @@ def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, An
 
 async def generate(prompt: str, **kwargs):
     payload = _trigger_payload(2, {
-        "version": "1077969938624553050",
+        "version": "1118961510123847772",
         "id": "938956540159881230",
         "name": "imagine",
         "type": 1,
@@ -115,24 +115,6 @@ async def generate(prompt: str, **kwargs):
             "name": "prompt",
             "value": prompt
         }],
-        "application_command": {
-            "id": "938956540159881230",
-            "application_id": "936929561302675456",
-            "version":  "1077969938624553050",
-            "default_permission": True,
-            "default_member_permissions": None,
-            "type": 1,
-            "nsfw": False,
-            "name": "imagine",
-            "description": "Create images with Midjourney",
-            "dm_permission": True,
-            "options": [{
-                "type": 3,
-                "name": "prompt",
-                "description": "The prompt to imagine",
-                "required": True
-            }]
-        },
         "attachments": []
     })
     return await trigger(payload)
@@ -188,33 +170,17 @@ async def reset(msg_id: str, msg_hash: str, **kwargs):
 
 async def describe(upload_filename: str, **kwargs):
     payload = _trigger_payload(2, {
-        "version": "1092492867185950853",
+        "version": "1118961510123847774",
         "id": "1092492867185950852",
         "name": "describe",
         "type": 1,
-        "options": [{
-            "type": 11,
-            "name": "image",
-            "value": 0
-        }],
-        "application_command": {
-            "id": "1092492867185950852",
-            "application_id": "936929561302675456",
-            "version": "1092492867185950853",
-            "default_permission": True,
-            "default_member_permissions": None,
-            "type": 1,
-            "nsfw": False,
-            "name": "describe",
-            "description": "Writes a prompt based on your image.",
-            "dm_permission": True,
-            "options": [{
+        "options": [
+            {
                 "type": 11,
-                "name": "prompt",
-                "description": "The image to describe",
-                "required": True
-            }]
-        },
+                "name": "image",
+                "value": 0
+            }
+        ],
         "attachments": [{
             "id": "0",
             "filename": upload_filename.split("/")[-1],
