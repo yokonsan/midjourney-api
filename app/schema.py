@@ -37,6 +37,10 @@ class TriggerResponse(BaseModel):
     trigger_id: str
     trigger_type: str = ""
 
+class ActionTriggerIn(BaseModel):
+    trigger_id: str = ""
+    custom_id: str = ""
+    msg_id: str = ""
 
 class UploadResponse(BaseModel):
     message: str = "success"
