@@ -35,5 +35,5 @@ class CallbackData(TypedDict):
     content: str
     attachments: List[Attachment]
     embeds: List[Embed]
-    action_button: List[Action]
+    actions: List[Action]
     trigger_id: str

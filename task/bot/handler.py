@@ -55,7 +55,7 @@ async def callback_trigger(trigger_id: str, trigger_status: str, message: Messag
         ],
         embeds=[],
         trigger_id=trigger_id,
-        action_button=get_action(message)
+        actions=get_action(message)
     ))
 
 
@@ -72,6 +72,6 @@ async def callback_describe(trigger_status: str, message: Message, embed: Dict[s
             Embed(**embed)
         ],
         trigger_id=trigger_id,
-        action_button=get_action(message)
+        actions=get_action(message)
     ))
     return trigger_id
