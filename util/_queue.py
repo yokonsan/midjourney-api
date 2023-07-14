@@ -45,6 +45,7 @@ class TaskQueue:
         self._wait_queue.append({
             _trigger_id: Task(func, *args, **kwargs)
         })
+        logger.debug(f"Task[{_trigger_id}] added to queue. Queue size: {len(self._wait_queue)}")
         while self._wait_queue and len(self._concur_queue) < self._concur_size:
             self._exec()
 

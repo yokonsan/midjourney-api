@@ -24,11 +24,16 @@ class Embed(TypedDict):
     image: EmbedsImage
 
 
+class Action(TypedDict):
+    label: str
+    custom_id: str
+
+
 class CallbackData(TypedDict):
     type: str
     id: int
     content: str
     attachments: List[Attachment]
     embeds: List[Embed]
-
+    actions: List[Action]
     trigger_id: str

@@ -23,6 +23,7 @@ class TriggerType(str, Enum):
     max_upscale = "max_upscale"
     reset = "reset"
     describe = "describe"
+    action = "action"
 
 
 async def trigger(payload: Dict[str, Any]):
@@ -164,6 +165,17 @@ async def reset(msg_id: str, msg_hash: str, **kwargs):
     payload = _trigger_payload(3, {
         "component_type": 2,
         "custom_id": f"MJ::JOB::reroll::0::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+async def trigger_action(msg_id: str, custom_id: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": custom_id
     }, **kwargs)
     return await trigger(payload)
 

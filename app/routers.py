@@ -14,6 +14,7 @@ from .schema import (
     TriggerDescribeIn,
     SendMessageResponse,
     SendMessageIn,
+    ActionTriggerIn,
 )
 
 router = APIRouter()
@@ -63,6 +64,14 @@ async def describe(body: TriggerDescribeIn):
     taskqueue.put(trigger_id, discord.describe, **body.dict())
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
+
+@router.post("/action", response_model=TriggerResponse)
+async def action(body: ActionTriggerIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.action.value
+
+    taskqueue.put(trigger_id, discord.trigger_action, **body.dict())
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 @router.post("/upload", response_model=UploadResponse)
 async def upload_attachment(file: UploadFile):
