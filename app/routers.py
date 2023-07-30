@@ -25,7 +25,13 @@ async def imagine(body: TriggerImagineIn):
     trigger_type = TriggerType.generate.value
 
     taskqueue.put(trigger_id, discord.generate, prompt)
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}
 
 
 @router.post("/upscale", response_model=TriggerResponse)

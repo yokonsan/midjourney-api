@@ -36,6 +36,8 @@ class TriggerResponse(BaseModel):
     message: str = "success"
     trigger_id: str
     trigger_type: str = ""
+    wait_size: int
+    concur_size: int
 
 
 class UploadResponse(BaseModel):
