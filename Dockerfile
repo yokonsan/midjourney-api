@@ -1,9 +1,9 @@
-FROM python:3.10 AS builder
+FROM python:3.10.6 AS builder
 
 COPY requirements.txt .
 RUN pip install --user -r requirements.txt
 
-FROM python:3.10-slim
+FROM python:3.10.6-slim
 
 WORKDIR /code
 
