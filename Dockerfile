@@ -1,12 +1,18 @@
-FROM python:3.10.6
-LABEL creator="yokon" email="944682328@qq.com"
+FROM python:3.10 AS builder
 
-WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user -r requirements.txt
 
+FROM python:3.10-slim
+
+WORKDIR /code
+
+COPY --from=builder /root/.local /root/.local
 COPY . .
-RUN pip install --upgrade pip \
-    && pip install -i https://pypi.douban.com/simple/ -r requirements.txt \
-    && chmod +x entrypoint.sh
+
+ENV PATH=/root/.local:$PATH
+
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
 EXPOSE 8062
