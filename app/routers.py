@@ -5,11 +5,13 @@ from lib.api.discord import TriggerType
 from util._queue import taskqueue
 from .handler import prompt_handler, unique_id
 from .schema import (
+    TriggerExpandIn,
     TriggerImagineIn,
     TriggerUVIn,
     TriggerResetIn,
     QueueReleaseIn,
     TriggerResponse,
+    TriggerZoomOutIn,
     UploadResponse,
     TriggerDescribeIn,
     SendMessageResponse,
@@ -98,3 +100,33 @@ async def queue_release(body: QueueReleaseIn):
     taskqueue.pop(body.trigger_id)
 
     return body
+
+
+@router.post("/solo_variation")
+async def async_solo_variation(body: TriggerUVIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.solo_variation.value
+    taskqueue.put(trigger_id, discord.solo_variation, **body.dict())
+
+    # 返回结果
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+@router.post("/expand")
+async def async_expand(body: TriggerExpandIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.expand.value
+    taskqueue.put(trigger_id, discord.expand, **body.dict())
+
+    # 返回结果
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+
+@router.post("/zoomout")
+async def async_zoomout(body: TriggerZoomOutIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.zoomout.value
+    taskqueue.put(trigger_id, discord.zoomout, **body.dict())
+
+    # 返回结果
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+

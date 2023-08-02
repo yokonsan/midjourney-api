@@ -171,6 +171,68 @@ curl -X 'POST' \
 }'
 ```
 
+### solo_variation
+
+对 `upscale` 的单张图片进行 "Make Variatations" 操作
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/solo_variation' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index": 1,
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+- `index`: 图片索引，此处无用，取值：1
+- `msg_id`: `upscale` 绘画完成后回调报文 `id` 字段
+- `msg_hash`: `upscale` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
+- `trigger_id`: `upscale` 绘画完成后回调报文 `trigger_id` 字段
+
+### zoomout
+
+对 `upscale` 的单张图片进行 Zoom Out 2x/1.5x 操作
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/zoomout' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "zoomout": 50
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+- `zoomout`: 图片扩大（Outpaint）系数，2x -> 50、1.5x -> 75
+
+
+### expand
+
+对 `upscale` 的单张图片进行某方向的扩展操作
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/expand' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "direction": "up"
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+- `direction`: 图片扩大方向，取值：left/right/up/down
+
+
 ### reset
 
 ```bash
@@ -236,6 +298,9 @@ curl -X 'POST' \
 - [x] imagine
 - [x] upscale
 - [x] variation
+- [x] solo_variation
+- [x] zoomout
+- [x] expand
 - [x] reset
 - [x] describe
 - [x] 图生图（获取到上传图片的链接）
