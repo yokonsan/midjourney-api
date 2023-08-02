@@ -101,6 +101,9 @@ sh start.sh
 - [x]  `/v1/api/trigger/imagine`：触发绘画任务（图生图，Prompt 前加上图片链接即可）
 - [x]  `/v1/api/trigger/upscale`：U
 - [x]  `/v1/api/trigger/variation`：V
+- [x]  `/v1/api/trigger/solo_variation`：Make Variations
+- [x]  `/v1/api/trigger/zoomout`：Zoom Out 2x/1.5x
+- [x]  `/v1/api/trigger/expand`：⬅️ ➡️ ⬆️ ⬇️
 - [x]  `/v1/api/trigger/reset`：重绘
 - [x]  `/v1/api/trigger/upload`：上传图片
 - [x]  `/v1/api/trigger/describe`：通过上传图片名，生成 Prompt
@@ -173,7 +176,7 @@ curl -X 'POST' \
 
 ### solo_variation
 
-对 `upscale` 的单张图片进行 "Make Variatations" 操作
+对 `upscale` 的单张图片进行 "Make Variations" 操作
 
 ```bash
 curl -X 'POST' \
