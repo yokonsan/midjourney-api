@@ -147,14 +147,14 @@ async def variation(index: int, msg_id: str, msg_hash: str, **kwargs):
     return await trigger(payload)
 
 
-async def solo_variation(index: int, msg_id: str, msg_hash: str, **kwargs):
+async def solo_variation(msg_id: str, msg_hash: str, **kwargs):
     kwargs = {
         "message_flags": 0,
         "message_id": msg_id,
     }
     payload = _trigger_payload(3, {
         "component_type": 2,
-        "custom_id": f"MJ::JOB::variation::{index}::{msg_hash}::SOLO"
+        "custom_id": f"MJ::JOB::variation::1::{msg_hash}::SOLO"
     }, **kwargs)
     return await trigger(payload)
 
