@@ -102,7 +102,7 @@ async def queue_release(body: QueueReleaseIn):
     return body
 
 
-@router.post("/solo_variation")
+@router.post("/solo_variation", response_model=TriggerResponse)
 async def async_solo_variation(body: TriggerUVIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.solo_variation.value
@@ -111,7 +111,7 @@ async def async_solo_variation(body: TriggerUVIn):
     # 返回结果
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
-@router.post("/expand")
+@router.post("/expand", response_model=TriggerResponse)
 async def async_expand(body: TriggerExpandIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.expand.value
@@ -121,7 +121,7 @@ async def async_expand(body: TriggerExpandIn):
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
-@router.post("/zoomout")
+@router.post("/zoomout", response_model=TriggerResponse)
 async def async_zoomout(body: TriggerZoomOutIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.zoomout.value
