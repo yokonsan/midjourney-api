@@ -2,11 +2,14 @@ import asyncio
 import re
 from typing import Dict, Union, Any
 
+import requests
 from discord import Message
 
 from app.handler import PROMPT_PREFIX, PROMPT_SUFFIX
 from lib.api.callback import queue_release, callback
 from task.bot._typing import CallbackData, Attachment, Embed
+
+from requests import request
 
 TRIGGER_ID_PATTERN = f"{PROMPT_PREFIX}(\w+?){PROMPT_SUFFIX}"  # 消息 ID 正则
 
@@ -31,7 +34,14 @@ def pop_temp(trigger_id: str):
 
 def match_trigger_id(content: str) -> Union[str, None]:
     match = re.findall(TRIGGER_ID_PATTERN, content)
-    return match[0] if match else None
+    if match:
+        return match[0]
+    if 'https://s.mj.run' in content:
+        match2 = re.findall('(?<=\*\*<).+(?=> <)', content)
+        r = requests.get(match2[0])
+        return r.url.split("/")[-1].split(".")[0]
+
+    else: return None
 
 
 async def callback_trigger(trigger_id: str, trigger_status: str, message: Message):

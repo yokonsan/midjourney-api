@@ -12,6 +12,7 @@ from .schema import (
     TriggerResponse,
     UploadResponse,
     TriggerDescribeIn,
+    TriggerBlendIn,
     SendMessageResponse,
     SendMessageIn,
 )
@@ -92,6 +93,22 @@ async def describe(body: TriggerDescribeIn):
     return {"trigger_id": trigger_id, "trigger_type": trigger_type,
             "wait_size": queue_wait_size,
             "concur_size": queue_concur_size}
+
+
+@router.post("/blend", response_model=TriggerResponse)
+async def describe(body: TriggerBlendIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.blend.value
+
+    taskqueue.put(trigger_id, discord.blend, **body.dict())
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size
+            }
 
 
 @router.post("/upload", response_model=UploadResponse)
