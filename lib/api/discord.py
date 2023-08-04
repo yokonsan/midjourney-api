@@ -23,6 +23,7 @@ class TriggerType(str, Enum):
     max_upscale = "max_upscale"
     reset = "reset"
     describe = "describe"
+    blend = "blend"
 
 
 async def trigger(payload: Dict[str, Any]):
@@ -185,6 +186,38 @@ async def describe(upload_filename: str, **kwargs):
             "id": "0",
             "filename": upload_filename.split("/")[-1],
             "uploaded_filename": upload_filename,
+        }]
+    })
+    return await trigger(payload)
+
+
+async def blend(upload_filename_1: str,upload_filename_2: str, **kwargs):
+    payload = _trigger_payload(2, {
+        "version": "1118961510123847773",
+        "id": "1062880104792997970",
+        "name": "blend",
+        "type": 1,
+        "options": [
+            {
+                "type": 11,
+                "name": "image1",
+                "value": 0
+            },
+            {
+                "type": 11,
+                "name": "image2",
+                "value": 1
+            }
+        ],
+        "attachments": [{
+            "id": "0",
+            "filename": upload_filename_1.split("/")[-1],
+            "uploaded_filename": upload_filename_1,
+        },
+            {
+            "id": "1",
+            "filename": upload_filename_2.split("/")[-1],
+            "uploaded_filename": upload_filename_2,
         }]
     })
     return await trigger(payload)

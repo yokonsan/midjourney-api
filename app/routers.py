@@ -12,6 +12,7 @@ from .schema import (
     TriggerResponse,
     UploadResponse,
     TriggerDescribeIn,
+    TriggerBlendIn,
     SendMessageResponse,
     SendMessageIn,
 )
@@ -25,7 +26,13 @@ async def imagine(body: TriggerImagineIn):
     trigger_type = TriggerType.generate.value
 
     taskqueue.put(trigger_id, discord.generate, prompt)
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}
 
 
 @router.post("/upscale", response_model=TriggerResponse)
@@ -34,7 +41,13 @@ async def upscale(body: TriggerUVIn):
     trigger_type = TriggerType.upscale.value
 
     taskqueue.put(trigger_id, discord.upscale, **body.dict())
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}
 
 
 @router.post("/variation", response_model=TriggerResponse)
@@ -43,7 +56,13 @@ async def variation(body: TriggerUVIn):
     trigger_type = TriggerType.variation.value
 
     taskqueue.put(trigger_id, discord.variation, **body.dict())
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}
 
 
 @router.post("/reset", response_model=TriggerResponse)
@@ -52,7 +71,13 @@ async def reset(body: TriggerResetIn):
     trigger_type = TriggerType.reset.value
 
     taskqueue.put(trigger_id, discord.reset, **body.dict())
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}
 
 
 @router.post("/describe", response_model=TriggerResponse)
@@ -61,7 +86,29 @@ async def describe(body: TriggerDescribeIn):
     trigger_type = TriggerType.describe.value
 
     taskqueue.put(trigger_id, discord.describe, **body.dict())
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}
+
+
+@router.post("/blend", response_model=TriggerResponse)
+async def describe(body: TriggerBlendIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.blend.value
+
+    taskqueue.put(trigger_id, discord.blend, **body.dict())
+
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type,
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size
+            }
 
 
 @router.post("/upload", response_model=UploadResponse)
@@ -97,4 +144,9 @@ async def queue_release(body: QueueReleaseIn):
     """bot 清除队列任务"""
     taskqueue.pop(body.trigger_id)
 
-    return body
+    queue_wait_size = taskqueue.wait_queue_size()
+    queue_concur_size = taskqueue.concur_queue_size()
+
+    return {"trigger_id": body.trigger_id, "trigger_type": "release_queue",
+            "wait_size": queue_wait_size,
+            "concur_size": queue_concur_size}

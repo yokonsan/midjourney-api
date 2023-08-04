@@ -28,6 +28,12 @@ class TriggerDescribeIn(BaseModel):
     trigger_id: str
 
 
+class TriggerBlendIn(BaseModel):
+    upload_filename_1: str
+    upload_filename_2: str
+    trigger_id: str
+
+
 class QueueReleaseIn(BaseModel):
     trigger_id: str
 
@@ -36,6 +42,8 @@ class TriggerResponse(BaseModel):
     message: str = "success"
     trigger_id: str
     trigger_type: str = ""
+    wait_size: int
+    concur_size: int
 
 
 class UploadResponse(BaseModel):

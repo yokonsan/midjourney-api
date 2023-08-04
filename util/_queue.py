@@ -76,6 +76,12 @@ class TaskQueue:
     def clear_concur(self):
         self._concur_queue.clear()
 
+    def wait_queue_size(self):
+        return len(self._wait_queue)
+
+    def concur_queue_size(self):
+        return len(self._concur_queue)
+
 
 taskqueue = TaskQueue(
     int(getenv("CONCUR_SIZE") or 9999),

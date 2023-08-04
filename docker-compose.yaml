@@ -1,0 +1,31 @@
+networks:
+  mj-net:
+    name: mj-net
+
+services:
+  mj-server:
+    image: kunyu/midjourney-api:1.0
+    ports:
+      - "8062:8062"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - USER_TOKEN=${USER_TOKEN}
+      - GUILD_ID=${GUILD_ID}
+      - CHANNEL_ID=${CHANNEL_ID}
+      - CONCUR_SIZE=${CONCUR_SIZE}
+      - WAIT_SIZE=${WAIT_SIZE}
+    command: [http]
+    restart: unless-stopped
+
+  mj-bot:
+    image: kunyu/midjourney-api:1.0
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - USER_TOKEN=${USER_TOKEN}
+      - GUILD_ID=${GUILD_ID}
+      - CHANNEL_ID=${CHANNEL_ID}
+      - BOT_TOKEN=${BOT_TOKEN}
+      - CALLBACK_URL=${CALLBACK_URL}
+      - QUEUE_RELEASE_API=${QUEUE_RELEASE_API}
+    command: [bot]
+    restart: unless-stopped
