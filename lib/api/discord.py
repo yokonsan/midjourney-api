@@ -21,6 +21,8 @@ class TriggerType(str, Enum):
     upscale = "upscale"
     variation = "variation"
     solo_variation = "solo_variation"
+    solo_low_variation = "solo_low_variation"
+    solo_high_variation = "solo_high_variation"
     max_upscale = "max_upscale"
     reset = "reset"
     describe = "describe"
@@ -155,6 +157,28 @@ async def solo_variation(msg_id: str, msg_hash: str, **kwargs):
     payload = _trigger_payload(3, {
         "component_type": 2,
         "custom_id": f"MJ::JOB::variation::1::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+async def solo_low_variation(msg_id: str, msg_hash: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::JOB::low_variation::1::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+async def solo_high_variation(msg_id: str, msg_hash: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::JOB::high_variation::1::{msg_hash}::SOLO"
     }, **kwargs)
     return await trigger(payload)
 

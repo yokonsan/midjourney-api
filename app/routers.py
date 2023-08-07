@@ -111,6 +111,24 @@ async def async_solo_variation(body: TriggerUVIn):
     # 返回结果
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
+@router.post("/solo_low_variation", response_model=TriggerResponse)
+async def async_solo_low_variation(body: TriggerUVIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.solo_low_variation.value
+    taskqueue.put(trigger_id, discord.solo_low_variation, **body.dict())
+
+    # 返回结果
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+@router.post("/solo_high_variation", response_model=TriggerResponse)
+async def async_solo_high_variation(body: TriggerUVIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.solo_high_variation.value
+    taskqueue.put(trigger_id, discord.solo_high_variation, **body.dict())
+
+    # 返回结果
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
 @router.post("/expand", response_model=TriggerResponse)
 async def async_expand(body: TriggerExpandIn):
     trigger_id = body.trigger_id
