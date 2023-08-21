@@ -103,7 +103,7 @@ async def queue_release(body: QueueReleaseIn):
 
 
 @router.post("/solo_variation", response_model=TriggerResponse)
-async def async_solo_variation(body: TriggerUVIn):
+async def solo_variation(body: TriggerUVIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.solo_variation.value
     taskqueue.put(trigger_id, discord.solo_variation, **body.dict())
@@ -112,7 +112,7 @@ async def async_solo_variation(body: TriggerUVIn):
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 @router.post("/solo_low_variation", response_model=TriggerResponse)
-async def async_solo_low_variation(body: TriggerUVIn):
+async def solo_low_variation(body: TriggerUVIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.solo_low_variation.value
     taskqueue.put(trigger_id, discord.solo_low_variation, **body.dict())
@@ -121,7 +121,7 @@ async def async_solo_low_variation(body: TriggerUVIn):
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 @router.post("/solo_high_variation", response_model=TriggerResponse)
-async def async_solo_high_variation(body: TriggerUVIn):
+async def solo_high_variation(body: TriggerUVIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.solo_high_variation.value
     taskqueue.put(trigger_id, discord.solo_high_variation, **body.dict())
@@ -130,7 +130,7 @@ async def async_solo_high_variation(body: TriggerUVIn):
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 @router.post("/expand", response_model=TriggerResponse)
-async def async_expand(body: TriggerExpandIn):
+async def expand(body: TriggerExpandIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.expand.value
     taskqueue.put(trigger_id, discord.expand, **body.dict())
@@ -140,7 +140,7 @@ async def async_expand(body: TriggerExpandIn):
 
 
 @router.post("/zoomout", response_model=TriggerResponse)
-async def async_zoomout(body: TriggerZoomOutIn):
+async def zoomout(body: TriggerZoomOutIn):
     trigger_id = body.trigger_id
     trigger_type = TriggerType.zoomout.value
     taskqueue.put(trigger_id, discord.zoomout, **body.dict())
