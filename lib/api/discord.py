@@ -20,9 +20,14 @@ class TriggerType(str, Enum):
     generate = "generate"
     upscale = "upscale"
     variation = "variation"
+    solo_variation = "solo_variation"
+    solo_low_variation = "solo_low_variation"
+    solo_high_variation = "solo_high_variation"
     max_upscale = "max_upscale"
     reset = "reset"
     describe = "describe"
+    expand = "expand"
+    zoomout = "zoomout"
 
 
 async def trigger(payload: Dict[str, Any]):
@@ -140,6 +145,64 @@ async def variation(index: int, msg_id: str, msg_hash: str, **kwargs):
     payload = _trigger_payload(3, {
         "component_type": 2,
         "custom_id": f"MJ::JOB::variation::{index}::{msg_hash}"
+    }, **kwargs)
+    return await trigger(payload)
+
+
+async def solo_variation(msg_id: str, msg_hash: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::JOB::variation::1::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+async def solo_low_variation(msg_id: str, msg_hash: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::JOB::low_variation::1::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+async def solo_high_variation(msg_id: str, msg_hash: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::JOB::high_variation::1::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+
+async def expand(msg_id: str, msg_hash: str, direction: str, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::JOB::pan_{direction}::1::{msg_hash}::SOLO"
+    }, **kwargs)
+    return await trigger(payload)
+
+
+async def zoomout(msg_id: str, msg_hash: str, zoomout: int, **kwargs):
+    kwargs = {
+        "message_flags": 0,
+        "message_id": msg_id,
+    }
+    payload = _trigger_payload(3, {
+        "component_type": 2,
+        "custom_id": f"MJ::Outpaint::{zoomout}::1::{msg_hash}::SOLO"
     }, **kwargs)
     return await trigger(payload)
 

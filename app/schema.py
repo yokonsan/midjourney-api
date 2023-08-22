@@ -23,6 +23,21 @@ class TriggerResetIn(BaseModel):
     trigger_id: str  # 供业务定位触发ID，/trigger/imagine 接口返回的 trigger_id
 
 
+class TriggerExpandIn(BaseModel):
+    msg_id: str
+    msg_hash: str
+    direction: str  # right/left/up/down
+
+    trigger_id: str  # 供业务定位触发ID，/trigger/imagine 接口返回的 trigger_id
+
+class TriggerZoomOutIn(BaseModel):
+    msg_id: str
+    msg_hash: str
+    zoomout: int    # 2x: 50; 1.5x: 75
+
+    trigger_id: str  # 供业务定位触发ID，/trigger/imagine 接口返回的 trigger_id
+
+
 class TriggerDescribeIn(BaseModel):
     upload_filename: str
     trigger_id: str
