@@ -111,7 +111,7 @@ def _trigger_payload(type_: int, data: Dict[str, Any], **kwargs) -> Dict[str, An
 
 async def generate(prompt: str, **kwargs):
     payload = _trigger_payload(2, {
-        "version": "1118961510123847772",
+        "version": "1166847114203123795",
         "id": "938956540159881230",
         "name": "imagine",
         "type": 1,
@@ -233,7 +233,7 @@ async def reset(msg_id: str, msg_hash: str, **kwargs):
 
 async def describe(upload_filename: str, **kwargs):
     payload = _trigger_payload(2, {
-        "version": "1118961510123847774",
+        "version": "1166847114203123797",
         "id": "1092492867185950852",
         "name": "describe",
         "type": 1,
