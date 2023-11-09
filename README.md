@@ -1,11 +1,10 @@
 # midjourney-api
 
-基于 Discord 的 Midjourney API。
+**Based on Discord, the Midjourney API.**
 
-**添加 Midjourney 违禁词入口 [issue](https://github.com/yokonsan/midjourney-api/issues/new?assignees=&labels=banned+prompt&projects=&template=banned_prompt_report.yml&title=Banned+prompt%3A+)**
+**Add Midjourney banned words entry [issue](https://github.com/yokonsan/midjourney-api/issues/new?assignees=&labels=banned+prompt&projects=&template=banned_prompt_report.yml&title=Banned+prompt%3A+)**
 
-项目集成 Demo 参考：[issue31](https://github.com/yokonsan/midjourney-api/issues/31)
-
+Project integration demo reference: [issue31](https://github.com/yokonsan/midjourney-api/issues/31)
 
 ## UML
 
@@ -15,90 +14,93 @@ sequenceDiagram
     participant APIServer
     participant DiscordAPI
 
-    ThirdServer->>APIServer: 请求接口触发任务
-    APIServer->>APIServer: 放入任务队列
-    APIServer->>DiscordAPI: 调接口触发绘画任务
-    APIServer-->>ThirdServer: 返回是否触发成功
+    ThirdServer->>APIServer: Request interface triggers tasks
+    APIServer->>APIServer: Put tasks in the queue
+    APIServer->>DiscordAPI: Call interface to trigger drawing tasks
+    APIServer-->>ThirdServer: Return whether the trigger was successful
 
-    DiscordAPI->>DiscordAPI: 触发Midjourney bot绘画任务
-    DiscordAPI->>DiscordAPI: 监听MidJourney bot消息
-    DiscordAPI-->>ThirdServer: 返回监听实时消息
-    DiscordAPI-->>APIServer: 清除队列任务
+    DiscordAPI->>DiscordAPI: Trigger Midjourney bot drawing task
+    DiscordAPI->>DiscordAPI: Listen to MidJourney bot messages
+    DiscordAPI-->>ThirdServer: Return real-time message listening
+    DiscordAPI-->>APIServer: Clear queue tasks
 ```
 
-## 使用条件
+## Usage Conditions
 
-1. 确保程序启动环境能访问 Discord
-2. 已有 Midjourney、Discord 账户
-3. 创建 Discord 频道并添加机器人，参考教程 [Midjourney｜如何集成到自己的平台](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
+1. Ensure the program startup environment can access Discord.
+2. Have Midjourney and Discord accounts.
+3. Create a Discord channel and add a bot, refer to the tutorial [Midjourney｜ How to integrate into your platform](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
 
 
-## 安装启动
+## Installation and Start
 
 ```bash
 git clone
 pip install -r requirements.txt
 ```
 
-将文件`.env.template`重命名为`.env`，并填入参数值：
+Rename the file `.env.template` to `.env` and fill in the parameter values:
 
 ```
-USER_TOKEN=用户token
-BOT_TOKEN=机器人token
-GUILD_ID=服务器ID
-CHANNEL_ID=频道ID
-CALLBACK_URL=回调地址，默认http post请求，用于接收 midjourney 作图进度和结果的服务
+USER_TOKEN=User token
+BOT_TOKEN=Bot token
+GUILD_ID=Server ID
+CHANNEL_ID=Channel ID
+CALLBACK_URL=Callback URL, default http post request, used to receive midjourney drawing progress and results
 ```
 
-### 直接启动
+### Start directly
 
 ```bash
-# 启动监听机器人
+# Start listening to the bot
 python task_bot.py
-# 启动http服务
+# Start the HTTP service
 python server.py
+
 ```
 
-#### 更新
+#### Update
 
 ```bash
 git pull
 
-# 启动监听机器人
+# Start listening to the bot
 python task_bot.py
-# 启动http服务
+# Start the HTTP service
 python server.py
+
 ```
 
-### docker 启动
+### Docker Start
 
-填写 [start.sh](./start.sh) 中 `-e` 后的环境变量，直接启动：
+Fill in the environment variables in [start.sh](./start.sh) after `-e` and start directly:
 
 ```bash
 sh start.sh
 ```
 
-或者本地构建镜像：
+Or build the image locally:
 
 ```bash
-# 构建镜像
+# Build the image
 sh build.sh
-# 启动容器
+# Start the container
 sh start.sh
+
 ```
 
-#### 更新
+#### Update
 
 ```bash
 docker rmi kunyu/midjourney-api:1.0
 sh start.sh
 ```
 
-接口`swagger`文档：[http://127.0.0.1:8062/docs](http://127.0.0.1:8062/docs)
+Interface`swagger`documentation：[http://127.0.0.1:8062/docs](http://127.0.0.1:8062/docs)
 
-`midjourney-api` 提供接口：
+`midjourney-api`  provides interfaces:
 
-- [x]  `/v1/api/trigger/imagine`：触发绘画任务（图生图，Prompt 前加上图片链接即可）
+- [x]  `/v1/api/trigger/imagine`：Trigger drawing task (image-to-image, add the image link before the Prompt)
 - [x]  `/v1/api/trigger/upscale`：U
 - [x]  `/v1/api/trigger/variation`：V
 - [x]  `/v1/api/trigger/solo_variation`：Make Variations
@@ -106,17 +108,17 @@ sh start.sh
 - [x]  `/v1/api/trigger/solo_high_variation`：Vary(Strong)
 - [x]  `/v1/api/trigger/zoomout`：Zoom Out 2x/1.5x
 - [x]  `/v1/api/trigger/expand`：⬅️ ➡️ ⬆️ ⬇️
-- [x]  `/v1/api/trigger/reset`：重绘
-- [x]  `/v1/api/trigger/upload`：上传图片
-- [x]  `/v1/api/trigger/describe`：通过上传图片名，生成 Prompt
-- [x] `/v1/api/trigger/message`：发送图片消息，返回图片链接，用于图生图功能
+- [x]  `/v1/api/trigger/reset`：Redraw
+- [x]  `/v1/api/trigger/upload`：Upload image
+- [x]  `/v1/api/trigger/describe`： Generate Prompt by uploading image name
+- [x] `/v1/api/trigger/message`：Send image message, return image link for image-to-image functionality
 
 
-## 使用
+## Use
 
 ### imagine
 
-文生图
+Text-to-image
 
 ```bash
 curl -X 'POST' \
@@ -128,7 +130,7 @@ curl -X 'POST' \
 }'
 ```
 
-图生图，需带上图片 URL
+Image-to-image, needs to include the image URL
 
 ```bash
 curl -X 'POST' \
@@ -156,10 +158,11 @@ curl -X 'POST' \
 }'
 ```
 
-- `index`: 图片索引，取值：1、2、3、4
-- `msg_id`: `imagine` 绘画完成后回调报文 `id` 字段
-- `msg_hash`: `imagine` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
-- `trigger_id`: `imagine` 绘画完成后回调报文 `trigger_id` 字段
+- `index`: Image index, possible values: 1, 2, 3, 4
+- `msg_id`: Callback message `id` field after the completion of the drawing in the `imagine` process
+- `msg_hash`: Extracted from the callback message after the completion of the drawing in the `imagine` process. It is obtained by splitting the filename in `attachments[0]` and taking the last part before the extension.
+- `trigger_id`: Callback message `trigger_id` field after the completion of the drawing in the `imagine` process
+
 
 ### variation
 
@@ -178,7 +181,7 @@ curl -X 'POST' \
 
 ### solo_variation
 
-对 `upscale` 的单张图片进行 "Make Variations" 操作
+Perform the "Make Variations" operation on a single image with the `upscale` attribute.
 
 ```bash
 curl -X 'POST' \
@@ -193,14 +196,15 @@ curl -X 'POST' \
 }'
 ```
 
-- `index`: 图片索引，此处无用，取值：1
-- `msg_id`: `upscale` 绘画完成后回调报文 `id` 字段
-- `msg_hash`: `upscale` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
-- `trigger_id`: `upscale` 绘画完成后回调报文 `trigger_id` 字段
+- `index`: Image index, not used here, value: 1
+- `msg_id`: Callback message ID field after completion of the `upscale` drawing
+- `msg_hash`: Extracted from the `attachments[0].filename.split("_")[-1].split(".").[0]` field in the callback message after the completion of the `upscale` drawing
+- `trigger_id`: Trigger ID field in the callback message after the completion of the `upscale` drawing
+
 
 ### solo_low_variation
 
-对 `upscale` 的单张图片进行 "Vary(Subtle)" 操作
+Perform "Vary(Subtle)" operation on a single image of `upscale`.
 
 ```bash
 curl -X 'POST' \
@@ -215,14 +219,16 @@ curl -X 'POST' \
 }'
 ```
 
-- `index`: 图片索引，此处无用，取值：1
-- `msg_id`: `upscale` 绘画完成后回调报文 `id` 字段
-- `msg_hash`: `upscale` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
-- `trigger_id`: `upscale` 绘画完成后回调报文 `trigger_id` 字段
+- `index`: Image index, not used here, value: 1
+- `msg_id`: Callback message `id` field after completion of the `upscale` drawing
+- `msg_hash`: Extracted from the `upscale` callback message, derived as `attachments[0].filename.split("_")[-1].split(".")[0]`
+- `trigger_id`: Callback message `trigger_id` field after completion of the `upscale` drawing
+
 
 ### solo_high_variation
 
-对 `upscale` 的单张图片进行 "Vary(Strong)" 操作
+Perform "Vary(Strong)" operation on a single image for `upscale`.
+
 
 ```bash
 curl -X 'POST' \
@@ -237,15 +243,16 @@ curl -X 'POST' \
 }'
 ```
 
-- `index`: 图片索引，此处无用，取值：1
-- `msg_id`: `upscale` 绘画完成后回调报文 `id` 字段
-- `msg_hash`: `upscale` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
-- `trigger_id`: `upscale` 绘画完成后回调报文 `trigger_id` 字段
+- `index`: Image index, not used here; value: 1
+- `msg_id`: Callback message ID field after the completion of the `upscale` drawing
+- `msg_hash`: Extracted from the callback message after the completion of the `upscale` drawing; derived from `attachments[0].filename.split("_")[-1].split(".").[0]`
+- `trigger_id`: Trigger ID field from the callback message after the completion of the `upscale` drawing
+
 
 
 ### zoomout
 
-对 `upscale` 的单张图片进行 Zoom Out 2x/1.5x 操作
+Perform a 2x/1.5x Zoom Out operation on a single `upscale` image.
 
 ```bash
 curl -X 'POST' \
@@ -260,12 +267,12 @@ curl -X 'POST' \
 }'
 ```
 
-- `zoomout`: 图片扩大（Outpaint）系数，2x -> 50、1.5x -> 75
+- `zoomout`: Image enlargement (Outpaint) factor, 2x -> 50, 1.5x -> 75
 
 
 ### expand
 
-对 `upscale` 的单张图片进行某方向的扩展操作
+Perform expansion operation on a single image in the `upscale` direction.
 
 ```bash
 curl -X 'POST' \
@@ -280,7 +287,7 @@ curl -X 'POST' \
 }'
 ```
 
-- `direction`: 图片扩大方向，取值：left/right/up/down
+- `direction`: Direction of image expansion, with possible values: left/right/up/down
 
 
 ### reset
@@ -299,7 +306,8 @@ curl -X 'POST' \
 
 ### describe
 
-1. 先上传图片
+1. Upload the image first
+
 
 ```bash
 curl -X 'POST' \
@@ -309,7 +317,7 @@ curl -X 'POST' \
   -F 'file=@cH16Ifh.jpg;type=image/jpeg'
 ```
 
-2. 根据返回的图片文件名，调用 describe
+2. Call the `describe` function based on the returned image file name.
 
 ```bash
 curl -X 'POST' \
@@ -322,12 +330,12 @@ curl -X 'POST' \
 }'
 ```
 
-- `trigger_id` 先用 upload 返回的 trigger_id
-- `upload_filename` upload 返回的文件名
+- `trigger_id`: Use the `trigger_id` returned by the `upload` function.
+- `upload_filename`: The file name returned by the `upload` function.
 
 ### message
 
-和 `describe` 一样，先 `/v1/api/trigger/upload` 上传图片，然后根据返回文件名，发送消息：
+Similar to the `describe` function, first upload the image using `/v1/api/trigger/upload` and then, based on the returned file name, send a message:
 
 ```bash
 curl -X 'POST' \
@@ -339,11 +347,10 @@ curl -X 'POST' \
 }'
 ```
 
-发送图片后，会返回图片链接。
-该链接用于以图生图中，拼接 Prompt 形如 `图片URL Prompt`，调用 `/v1/api/trigger/imagine`。
+After sending an image, you will receive a link to the image. This link is used to generate a new image with the input prompt in the form of `Image URL Prompt` by calling `/v1/api/trigger/imagine`.
 
 
-## 功能
+## Function
 
 - [x] imagine
 - [x] upscale
@@ -355,9 +362,10 @@ curl -X 'POST' \
 - [x] expand
 - [x] reset
 - [x] describe
-- [x] 图生图（获取到上传图片的链接）
-- [x] 敏感词过滤上报
-- [x] 任务队列（内存存储，不希望引入外建，可加入异常落盘）
+- [x] Image Generation (Retrieve the link to the uploaded image)
+- [x] Report on Sensitive Word Filtering
+- [x] Task Queue (In-memory storage, avoiding the introduction of foreign keys, with the option to handle exceptions and persist to disk if necessary)
+
 - [ ] tests
 
 ## enjoy it
