@@ -1,17 +1,17 @@
-name: "🔥 禁用词添加"
-description: 禁用词添加
+name: "🔥 Add Banned Word"
+description: Add Banned Word
 title: "Banned prompt: "
 labels: ["banned prompt"]
 body:
   - type: markdown
     attributes:
       value: |
-        非常感谢你的 issue report (๑>؂<๑）
+        Thank you very much for your issue report (๑>؂<๑）
   - type: input
     id: prompt
     attributes:
-      label: 禁用词
-      description: 输入您需要添加的 Midjourney 禁用词～
+      label: Banned Word
+      description: Enter the Midjourney banned word you need to add～
       placeholder: |
         Prompt
     validations:
@@ -19,10 +19,10 @@ body:
   - type: checkboxes
     id: checkboxes
     attributes:
-      label: 一点点的自我检查
-      description: 在你提交 issue 之前，麻烦确认自己是否已经完成了以下检查：
+      label: A little self-check
+      description: Before you submit the issue, please confirm whether you have completed the following checks:
       options:
-        - label: 如果是网络问题，已经检查网络连接、设置是否正常，并经过了充分测试
+        - label: If it is a network problem, I have checked whether the network connection and settings are normal and have been fully tested
           required: true
-        - label: 本 prompt 在 [banned_words](https://raw.githubusercontent.com/yokonsan/midjourney-api/master/banned_words.txt) 中不存在
+        - label: This prompt does not exist in [banned_words](https://github.com/PyramidDevelopers/midjourney-api/blob/main/banned_words.txt)
           required: true

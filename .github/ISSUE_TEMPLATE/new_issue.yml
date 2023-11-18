@@ -1,60 +1,60 @@
-name: "🐛 新建 issue"
-description: 上报一个新的 issue
+name: "🐛 New Issue"
+description: Report a new issue
 title: "🐛 "
 labels: []
 body:
   - type: markdown
     attributes:
       value: |
-        非常感谢你的 issue report (๑>؂<๑），为了使我们能够更快地定位问题来源，请尽可能完整地填写本 Issue 表格
+        Thank you very much for your issue report (๑>؂<๑), in order for us to locate the source of the problem more quickly, please fill out this Issue form as completely as possible.
   - type: textarea
     id: description
     attributes:
-      label: 问题简述
-      description: 详述你所遇到的问题（如有报错也请粘贴在这里）～
+      label: Issue Summary
+      description: Describe the issue you are experiencing in detail (if there are any errors, please paste them here)～
       placeholder: |
-        如果方便，请提供更加详细的日志信息
+        If convenient, please provide more detailed log information.
     validations:
       required: true
   - type: textarea
     id: reproduction
     attributes:
-      label: 复现方式
+      label: Reproduction Method
       description: |
-        请在这里提供你复现改问题的方法。
-        为了节省彼此交流的时间，麻烦在提交 issue 前多次测试该问题是能够反复复现的（非网络问题）。
-      placeholder: "注意在粘贴的命令中隐去所有隐私信息哦(*/ω＼*)"
+        Please provide your method of reproducing this issue here.
+        To save time in communication, please test multiple times before submitting the issue to ensure that it can be repeatedly reproduced (not a network issue).
+      placeholder: "Be careful to hide all private information in the pasted commands (*/ω＼*)"
     validations:
       required: true
   - type: textarea
     id: environment-info
     attributes:
-      label: 环境信息
-      description: 请尽可能详细地供以下信息～
-      placeholder: 你的环境信息～
+      label: Environment Information
+      description: Please provide the following information as detailed as possible～
+      placeholder: Your environment information～
       value: |
-        -  OS: 操作系统类型及其版本号
-        -  Python: Python 版本号 (`python --version`)
-        -  Others: 其它信息
+        -  OS: Type and version of operating system
+        -  Python: Python version (`python --version`)
+        -  Others: Other information
     validations:
       required: true
   - type: textarea
     id: additional-context
     attributes:
-      label: 额外信息
-      description: 请尽可能提供一些你认为可能产生该问题的一些原因
-      placeholder: 如有额外的信息，请填写在这里～
+      label: Additional Information
+      description: Please provide any reasons you think may have caused this issue
+      placeholder: If there is additional information, please fill it in here～
     validations:
       required: false
   - type: checkboxes
     id: checkboxes
     attributes:
-      label: 一点点的自我检查
-      description: 在你提交 issue 之前，麻烦确认自己是否已经完成了以下检查：
+      label: A Little Self-Check
+      description: Before you submit the issue, please confirm that you have completed the following checks:
       options:
-        - label: 充分阅读 [README.md](https://github.com/yokonsan/midjourney-api)，特别是与本 issue 相关的部分
+        - label: Thoroughly read [README.md](https://github.com/PyramidDevelopers/midjourney-api), especially the parts related to this issue
           required: true
-        - label: 如果是网络问题，已经检查网络连接、设置是否正常，并经过充分测试认为这是项目本身的问题
+        - label: If it is a network problem, the network connection and settings have been checked to be normal, and after sufficient testing, it is believed to be a problem with the project itself
           required: true
-        - label: 本 issue 在 [issues](https://github.com/yokonsan/midjourney-api/issues) 中并没有重复问题
+        - label: This issue is not a duplicate in [issues](https://github.com/PyramidDevelopers/midjourney-api/ssues)
           required: true
