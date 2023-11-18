@@ -1,4 +1,5 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, HTTPException, status
+import requests
 
 from lib.api import discord
 from lib.api.discord import TriggerType
@@ -16,7 +17,11 @@ from .schema import (
     TriggerDescribeIn,
     SendMessageResponse,
     SendMessageIn,
+    MessageBody
 )
+
+from .get_messages import Retrieve_Messages
+
 
 router = APIRouter()
 
@@ -27,7 +32,8 @@ async def imagine(body: TriggerImagineIn):
     trigger_type = TriggerType.generate.value
 
     taskqueue.put(trigger_id, discord.generate, prompt)
-    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type, "prompt" : body.prompt}
 
 
 @router.post("/upscale", response_model=TriggerResponse)
@@ -147,4 +153,16 @@ async def zoomout(body: TriggerZoomOutIn):
 
     # 返回结果
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+
+
+@router.post("/getmessage")
+async def getmessage(body: MessageBody):
+    data = await Retrieve_Messages(body.trigger_id)
+    if "error" in data :
+        raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=data["error"],
+    )
+    return data
 

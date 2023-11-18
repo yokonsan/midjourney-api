@@ -67,3 +67,7 @@ class SendMessageIn(BaseModel):
 class SendMessageResponse(BaseModel):
     message: str = "success"
     picurl: str
+
+class MessageBody(BaseModel):
+
+    trigger_id: str  
