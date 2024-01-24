@@ -4,7 +4,7 @@ from typing import Dict, Any, Union
 
 import aiohttp
 
-from lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID
+from lib.api import CHANNEL_ID, USER_TOKEN, GUILD_ID, PROXY_URL
 from util.fetch import fetch, fetch_json, FetchMethod
 
 TRIGGER_URL = "https://discord.com/api/v9/interactions"
@@ -35,7 +35,7 @@ async def trigger(payload: Dict[str, Any]):
             timeout=aiohttp.ClientTimeout(total=30),
             headers=HEADERS
     ) as session:
-        return await fetch(session, TRIGGER_URL, data=json.dumps(payload))
+        return await fetch(session, TRIGGER_URL, data=json.dumps(payload), proxy=PROXY_URL)
 
 
 async def upload_attachment(

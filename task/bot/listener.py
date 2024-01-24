@@ -1,7 +1,7 @@
 from discord import Intents, Message
 from discord.ext import commands
 from loguru import logger
-
+from lib.api import PROXY_URL
 from task.bot import TriggerStatus
 from task.bot.handler import (
     match_trigger_id,
@@ -14,7 +14,7 @@ from task.bot.handler import (
 
 intents = Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix="", intents=intents)
+bot = commands.Bot(command_prefix="", intents=intents, proxy=PROXY_URL)
 
 
 @bot.event
