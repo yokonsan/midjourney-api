@@ -100,6 +100,8 @@ sh start.sh
 
 - [x]  `/v1/api/trigger/imagine`：触发绘画任务（图生图，Prompt 前加上图片链接即可）
 - [x]  `/v1/api/trigger/upscale`：U
+- [x]  `/v1/api/trigger/solo_low_upscale`：Upscale(Subtle)
+- [x]  `/v1/api/trigger/solo_high_upscale`：Upscale(Creative)
 - [x]  `/v1/api/trigger/variation`：V
 - [x]  `/v1/api/trigger/solo_variation`：Make Variations
 - [x]  `/v1/api/trigger/solo_low_variation`：Vary(Subtle)
@@ -160,6 +162,50 @@ curl -X 'POST' \
 - `msg_id`: `imagine` 绘画完成后回调报文 `id` 字段
 - `msg_hash`: `imagine` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
 - `trigger_id`: `imagine` 绘画完成后回调报文 `trigger_id` 字段
+
+### solo_low_upscale
+
+对 `upscale` 的单张图片进行 "upscale(Subtle)" 操作
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/solo_low_upscale' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index": 1,
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+- `index`: 图片索引，此处无用，取值：1
+- `msg_id`: `upscale` 绘画完成后回调报文 `id` 字段
+- `msg_hash`: `upscale` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
+- `trigger_id`: `upscale` 绘画完成后回调报文 `trigger_id` 字段
+
+### solo_high_upscale
+
+对 `upscale` 的单张图片进行 "upscale(Creative)" 操作
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:8062/v1/api/trigger/solo_high_upscale' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "index": 1,
+  "msg_id": "xxxxxxxxxx",
+  "msg_hash": "xxxxx-xxx-xxxx-xxxx-xxxxxx",
+  "trigger_id": "xxxxxxxxxx"
+}'
+```
+
+- `index`: 图片索引，此处无用，取值：1
+- `msg_id`: `upscale` 绘画完成后回调报文 `id` 字段
+- `msg_hash`: `upscale` 绘画完成后回调报文 `attachments[0].filename.split("_")[-1].split(".").[0]`
+- `trigger_id`: `upscale` 绘画完成后回调报文 `trigger_id` 字段
 
 ### variation
 
@@ -347,6 +393,8 @@ curl -X 'POST' \
 
 - [x] imagine
 - [x] upscale
+- [x] solo_low_upscale
+- [x] solo_high_upscale
 - [x] variation
 - [x] solo_variation
 - [x] solo_low_variation

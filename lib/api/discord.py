@@ -19,6 +19,8 @@ HEADERS = {
 class TriggerType(str, Enum):
     generate = "generate"
     upscale = "upscale"
+    solo_low_upscale = "solo_low_upscale"
+    solo_high_upscale = "solo_high_upscale"
     variation = "variation"
     solo_variation = "solo_variation"
     solo_low_variation = "solo_low_variation"
@@ -28,7 +30,6 @@ class TriggerType(str, Enum):
     describe = "describe"
     expand = "expand"
     zoomout = "zoomout"
-
 
 async def trigger(payload: Dict[str, Any]):
     async with aiohttp.ClientSession(

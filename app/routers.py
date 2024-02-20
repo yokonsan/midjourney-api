@@ -39,6 +39,25 @@ async def upscale(body: TriggerUVIn):
     return {"trigger_id": trigger_id, "trigger_type": trigger_type}
 
 
+@router.post("/solo_low_upscale", response_model=TriggerResponse)
+async def upscale(body: TriggerUVIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.solo_low_upscale.value
+
+    taskqueue.put(trigger_id, discord.solo_low_upscale, **body.dict())
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+
+@router.post("/solo_high_upscale", response_model=TriggerResponse)
+async def upscale(body: TriggerUVIn):
+    trigger_id = body.trigger_id
+    trigger_type = TriggerType.solo_high_upscale.value
+
+    taskqueue.put(trigger_id, discord.solo_high_upscale, **body.dict())
+    return {"trigger_id": trigger_id, "trigger_type": trigger_type}
+
+
+
 @router.post("/variation", response_model=TriggerResponse)
 async def variation(body: TriggerUVIn):
     trigger_id = body.trigger_id
