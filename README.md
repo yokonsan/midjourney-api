@@ -9,6 +9,27 @@
 项目集成 Demo 参考：[issue31](https://github.com/yokonsan/midjourney-api/issues/31)
 
 
+<hr>
+
+## Midjourney API 平台推荐
+如果以上流程&代码对你来说操作有困难，或者维护账户池消耗了你们大量的精力与成本。这里有一个高度集成且价格与稳定性具有超高性价比的 [Midjouney API](https://ttapi.io/midjourney) 平台推荐 **[TTAPI](https://ttapi.io)**
+
+**TTAPI 平台对于Midjourney相关功能支持：**
+- imagine 
+- U V pan zoom 
+- describe 
+- blend 
+- vary_region等等所有Midjourney官方包含的高级功能
+- 除此以外还支持**Luma API**、**换脸API**、相对价格比较优惠的**ChatGPT以及Claude API**
+
+**TTAPI 接入**
+
+- 进入[平台github一键登录](https://ttapi.io/login)即可获取30配额的免费额度（可用于fast模式下执行10次imagine接口用作测试）
+- [平台接口文档地址](https://docs-zh.mjapiapp.com/)
+
+<hr>
+
+
 ## UML
 
 ```mermaid
@@ -28,28 +49,12 @@ sequenceDiagram
     DiscordAPI-->>APIServer: 清除队列任务
 ```
 
+
 ## 使用条件
 
 1. 确保程序启动环境能访问 Discord
 2. 已有 Midjourney、Discord 账户
 3. 创建 Discord 频道并添加机器人，参考教程 [Midjourney｜如何集成到自己的平台](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
-
-
-### Midjourney API 平台推荐
-如果以上流程&代码对你来说操作有困难，或者维护账户池消耗了你们大量的精力与成本。这里有一个高度集成且价格与稳定性具有超高性价比的 [Midjouney API](https://ttapi.io/midjourney) 平台推荐 **[TTAPI](https://ttapi.io)**
-
-**TTAPI 平台对于Midjourney相关功能支持：**
-- imagine 
-- U V pan zoom 
-- describe 
-- blend 
-- vary_region等等所有Midjourney官方包含的高级功能
-- 除此以外还支持**Luma API**、**换脸API**、相对价格比较优惠的**ChatGPT以及Claude API**
-
-**TTAPI 接入**
-
-- 进入[平台github一键登录](https://ttapi.io/login)即可获取30配额的免费额度（可用于fast模式下执行10次imagine接口用作测试）
-- [平台接口文档地址](https://docs-zh.mjapiapp.com/)
 
 
 ## 安装启动

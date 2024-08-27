@@ -8,6 +8,27 @@ Based on the Discord Midjourney API.
 
 Refer to the project integration demo: [issue31](https://github.com/yokonsan/midjourney-api/issues/31)
 
+<hr>
+
+## Midjourney API Recommend
+If the above process & code is difficult for you to operate, or maintaining a pool of accounts consumes a lot of your energy and cost. Here is a highly integrated and cost effective [Midjouney API](https://ttapi.io/midjourney) platform recommendation **[TTAPI](https://ttapi.io)** for price and stability.
+
+**The TTAPI supports functions related to Midjourney:**
+- imagine 
+- U V pan zoom 
+- describe 
+- blend 
+- vary_region and all other advanced features included in Midjourney.
+- In addition to this there is support for the **Luma API**, the **Face Swap API**, the relatively inexpensive **ChatGPT**, and the **Claude API**.
+
+**How to start with TTAPI**
+
+- Just [Sign In With Github](https://ttapi.io/login), and than you will get 30 quota of free credits (can be used to 10 times imagine endpoint in fast mode for testing).
+- [For complete docs of TTAPI](https://ttapi.io/docs)
+
+<hr>
+
+
 ## UML
 
 ```mermaid
@@ -32,24 +53,6 @@ sequenceDiagram
 1. Ensure the program's runtime environment can access Discord
 2. Have Midjourney and Discord accounts
 3. Create a Discord channel and add the bot, refer to the tutorial [Midjourney｜How to Integrate into Your Own Platform](https://mp.weixin.qq.com/s?__biz=Mzg4MjkzMzc1Mg==&mid=2247484029&idx=1&sn=d3c458bba9459f19f05d13ab23f5f67e&chksm=cf4e68eaf839e1fc2db025bd9940d0f5e57862f1788c88215b4a66cb23f553a30c5f37ac3ae8&token=79614426&lang=zh_CN#rd)
-
-
-### Midjourney API Recommend
-If the above process & code is difficult for you to operate, or maintaining a pool of accounts consumes a lot of your energy and cost. Here is a highly integrated and cost effective [Midjouney API](https://ttapi.io/midjourney) platform recommendation **[TTAPI](https://ttapi.io)** for price and stability.
-
-**The TTAPI supports functions related to Midjourney:**
-- imagine 
-- U V pan zoom 
-- describe 
-- blend 
-- vary_region and all other advanced features included in Midjourney.
-- In addition to this there is support for the **Luma API**, the **Face Swap API**, the relatively inexpensive **ChatGPT**, and the **Claude API**.
-
-**How to start with TTAPI**
-
-- Just [Sign In With Github](https://ttapi.io/login), and than you will get 30 quota of free credits (can be used to 10 times imagine endpoint in fast mode for testing).
-- [For complete docs of TTAPI](https://ttapi.io/docs)
-
 
 
 ## Installation and Startup
