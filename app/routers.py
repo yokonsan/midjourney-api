@@ -97,7 +97,12 @@ async def send_message(body: SendMessageIn):
 @router.post("/queue/release", response_model=TriggerResponse)
 async def queue_release(body: QueueReleaseIn):
     """bot 清除队列任务"""
-    taskqueue.pop(body.trigger_id)
+    try:
+        if len(taskqueue._concur_queue) > 0:
+            taskqueue.pop(body.trigger_id)
+
+    except Exception as e:
+        print(e)
 
     return body
 
