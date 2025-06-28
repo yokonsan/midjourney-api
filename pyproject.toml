@@ -1,0 +1,101 @@
+[tool.poetry]
+name = "midjourney-api"
+version = "0.1.0"
+description = "Midjourney API integration project"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "app"}, {include = "lib"}, {include = "task"}, {include = "util"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+discord-py = "2.2.3"
+fastapi = "0.95"
+python-dotenv = "1.0.0"
+uvicorn = "0.22.0"
+pydantic = "~1.10.7"
+aiohttp = "~3.8.4"
+loguru = "0.7.0"
+aiofiles = "23.1.0"
+python-multipart = "0.0.6"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.11.1"
+pytest-asyncio = "^0.21.1"
+
+[tool.poetry.scripts]
+test = "pytest:main"
+tests = "pytest:main"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--strict-markers",
+    "--cov=app",
+    "--cov=lib",
+    "--cov=task",
+    "--cov=util",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["app", "lib", "task", "util"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/.venv/*",
+    "*/venv/*",
+    "*/.tox/*",
+    "*/.coverage*",
+    "*/htmlcov/*",
+    "*/dist/*",
+    "*/build/*",
+    "*/.pytest_cache/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if False:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+precision = 2
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

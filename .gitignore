@@ -1,16 +1,70 @@
+# IDE and cache
 .cache
 .idea
+.vscode
+*__pycache__*
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment
 .env*
+venv/
+.venv/
+env/
+ENV/
+
+# Logs
 log
 test/log
 test/**/log
-.pytest_cache
-.vscode
-*__pycache__*
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+.tox/
+
+# Claude
+.claude/*
+
+# Build artifacts
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Poetry
+poetry.lock
+
+# Data
 data
 test/data
 test/**/data
 
-# pipenv
+# pipenv (legacy)
 Pipfile
 Pipfile.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
